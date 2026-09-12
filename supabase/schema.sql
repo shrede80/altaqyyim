@@ -120,6 +120,9 @@ create table judge_invitations (
   invited_by uuid references auth.users(id),
   expires_at timestamptz not null default (now() + interval '14 days'),
   used_at timestamptz,
+  -- يُعبَّأ من Edge Function link-judge بعد الربط — يتيح لشاشة تعيين المحكّمين
+  -- عرض حالة كل دعوة وتبديل تعيينها دون الحاجة لقراءة auth.users مباشرة.
+  accepted_user_id uuid references auth.users(id),
   created_at timestamptz not null default now()
 );
 create index idx_judge_invitations_competition on judge_invitations(competition_id);

@@ -106,7 +106,7 @@ Deno.serve(async (req) => {
 
     const { error: markUsedError } = await admin
       .from("judge_invitations")
-      .update({ used_at: new Date().toISOString() })
+      .update({ used_at: new Date().toISOString(), accepted_user_id: judgeId })
       .eq("id", invitation.id);
     if (markUsedError) {
       return json({ error: "mark_used_failed", details: markUsedError.message }, 500);
