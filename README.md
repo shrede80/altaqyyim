@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# التقييم — منصة إدارة تحكيم المسابقات
 
-## Getting Started
+تطبيق ويب إنتاجي (Next.js 16 App Router + TypeScript + Tailwind v4 +
+Supabase) لإدارة تحكيم المسابقات في الأندية والملتقيات الشبابية: قوالب
+تقييم، مسابقات، متسابقون، محكّمون يدخلون بلا كلمة مرور عبر رابط دعوة،
+تسجيل درجات مع حفظ تلقائي وقفل حقيقي، ولوحة نتائج حيّة قابلة للاعتماد
+والنشر والتصدير.
 
-First, run the development server:
+## التشغيل محلياً
 
 ```bash
+npm install
+cp .env.example .env.local   # وأدخل بيانات مشروع Supabase الحقيقي
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## إعداد Supabase
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. أنشئ مشروع Supabase جديداً.
+2. طبّق `supabase/schema.sql` كاملاً في SQL Editor (أو `supabase db push`).
+   يتضمن: الجداول، RLS، دالة `get_invitation_preview` لمعاينة دعوة
+   المحكّم قبل المصادقة، وتفعيل Realtime على جدول `scores`.
+3. انشر Edge Function الربط بعد قبول دعوة المحكّم:
+   ```bash
+   supabase functions deploy link-judge
+   ```
+4. أنشئ أول منظمة ومنظّم يدوياً (لا توجد شاشة تسجيل عام؛ المنصة مخصصة
+   لنادٍ تُدار مستخدموه من الخلف):
+   ```sql
+   insert into organizations (name, slug) values ('نادي المثال', 'example-club');
+   -- أنشئ مستخدم Auth (من لوحة Supebase أو auth.admin API) ثم:
+   insert into users_roles (org_id, user_id, role) values ('<org_id>', '<user_id>', 'organizer');
+   ```
+5. انسخ `.env.example` إلى `.env.local` وعبّئ `NEXT_PUBLIC_SUPABASE_URL`
+   و`NEXT_PUBLIC_SUPABASE_ANON_KEY` من إعدادات المشروع.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## الاختبارات
 
-## Learn More
+```bash
+npm test            # اختبارات lib/scoring.ts و lib/results.ts (Vitest)
+supabase test db     # اختبار سياسة RLS الحرجة scores_update (pgTAP)
+```
 
-To learn more about Next.js, take a look at the following resources:
+اختبار `supabase/tests/scores_update_policy.test.sql` يتحقق تحديداً أن
+التصحيح المطلوب (`WITH CHECK` منفصلة عن `USING` في سياسة `scores_update`)
+يسمح فعلياً للمحكّم بقفل درجته (`is_locked: false → true`)، وأن كل
+الحالات التي يجب رفضها (محكّم آخر، تغيير `judge_id`، تحكيم مغلق) ما زالت
+مرفوضة.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## بنية المشروع
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  login/                          تسجيل دخول المنظّم (Supabase Auth)
+  organizer/                      محمي بـ requireOrganizer() في layout.tsx
+    dashboard/                    لوحة المسابقات
+    competitions/new/             إنشاء مسابقة
+    competitions/[id]/participants/  إضافة متسابقين (يدوي + CSV حقيقي)
+    competitions/[id]/judges/     تعيين محكّمين عبر روابط دعوة
+    competitions/[id]/results/    لوحة النتائج الحيّة + الاعتماد + التصدير
+    templates/new, templates/[id]/   محرر قالب التقييم
+  judge/
+    invite/[token]/               دخول المحكّم: OTP ثم ربط عبر Edge Function
+    [competitionId]/              شاشة تسجيل الدرجات
+lib/
+  scoring.ts, results.ts          منطق التجميع (مُختبر بالكامل)
+  offline-queue.ts                طابور محلي لدرجات أوفلاين
+  export/                         PDF (pdf-lib + Amiri) و Excel (exceljs)
+  supabase/                       عملاء المتصفح/الخادم/الـ proxy
+supabase/
+  schema.sql                      المخطط الكامل مع التصحيح المطلوب
+  functions/link-judge/           Edge Function لربط المحكّم بعد OTP
+  tests/                          اختبار pgTAP لسياسة scores_update
+```
 
-## Deploy on Vercel
+## قرارات تصميم وحدود معروفة
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **دعوة المحكّم بالبريد**: الشاشة تُنشئ رابط دعوة حقيقياً (جدول
+  `judge_invitations` + token) وتنسخه للحافظة، لكنها لا ترسل بريداً
+  فعلياً (لا يوجد مزوّد بريد مُعدّ). أرسل الرابط يدوياً أو اربط لاحقاً
+  مزوّد بريد (Resend مثلاً) في `sendInvite()` بمكوّن `assign-judges.tsx`.
+- **تشكيل PDF العربي**: pdf-lib لا يدعم OpenType shaping، لذا يُشكَّل
+  النص عبر `arabic-reshaper` (تحويل لأشكال العرض السياقية) ثم يُعكس
+  ترتيب الأحرف — يعمل بشكل صحيح للنصوص العربية الخالصة أو اللاتينية
+  الخالصة في كل عمود، دون خوارزمية bidi كاملة لخلط الاتجاهين بنص واحد
+  (غير مطلوب في جدول الترتيب النهائي).
+- **متوسط مرجّح (weighted_average)**: وزن كل محكّم يُضبط من شاشة تعيين
+  المحكّمين (يظهر الحقل فقط عند اختيار هذه القاعدة) ويُحفظ في
+  `competitions.aggregation_config.judgeWeights`.
+- **منظمة واحدة لكل منظّم** في هذا الإصدار (`requireOrganizer()` تختار
+  أول دور admin/organizer للمستخدم). دعم تعدد المنظمات لكل مستخدم يحتاج
+  شاشة اختيار منظمة إضافية.

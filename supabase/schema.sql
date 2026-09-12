@@ -65,6 +65,7 @@ create table competitions (
   aggregation_config jsonb not null default '{}'::jsonb,
   starts_at timestamptz,
   ends_at timestamptz,
+  published_at timestamptz,
   created_by uuid references auth.users(id),
   created_at timestamptz not null default now()
 );
@@ -382,3 +383,8 @@ create policy score_edit_requests_insert on score_edit_requests for insert
 create policy score_edit_requests_update on score_edit_requests for update
   using (has_org_role(competition_org(competition_id), array['admin','organizer']::app_role[]))
   with check (has_org_role(competition_org(competition_id), array['admin','organizer']::app_role[]));
+
+-- ============================================================
+-- Realtime: تفعيل بث تغييرات الدرجات لتحديث لوحة النتائج حياً
+-- ============================================================
+alter publication supabase_realtime add table scores;

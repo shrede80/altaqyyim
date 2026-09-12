@@ -22,12 +22,16 @@ export function AssignJudges({
   initialAssignedJudgeIds,
   origin,
   invitedBy,
+  isWeighted,
+  initialJudgeWeights,
 }: {
   competitionId: string;
   initialInvitations: JudgeRow[];
   initialAssignedJudgeIds: string[];
   origin: string;
   invitedBy: string;
+  isWeighted: boolean;
+  initialJudgeWeights: Record<string, number>;
 }) {
   const supabase = createClient();
   const { showToast } = useToast();
@@ -35,8 +39,23 @@ export function AssignJudges({
   const [inviteEmail, setInviteEmail] = useState("");
   const [invitations, setInvitations] = useState<JudgeRow[]>(initialInvitations);
   const [assignedIds, setAssignedIds] = useState<Set<string>>(new Set(initialAssignedJudgeIds));
+  const [judgeWeights, setJudgeWeights] = useState<Record<string, number>>(initialJudgeWeights);
   const [sending, setSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  async function updateJudgeWeight(judgeId: string, weight: number) {
+    const previous = judgeWeights;
+    const next = { ...judgeWeights, [judgeId]: weight };
+    setJudgeWeights(next);
+    const { error } = await supabase
+      .from("competitions")
+      .update({ aggregation_config: { judgeWeights: next } })
+      .eq("id", competitionId);
+    if (error) {
+      setJudgeWeights(previous);
+      setErrorMessage(error.message);
+    }
+  }
 
   async function sendInvite() {
     const email = inviteEmail.trim();
@@ -170,7 +189,22 @@ export function AssignJudges({
                     {statusLabel}
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
+                  {isWeighted && isAssigned && j.accepted_user_id ? (
+                    <div className="flex items-center gap-1.5">
+                      <label className="text-[11px] font-bold" style={{ color: "var(--color-text-tertiary)" }}>
+                        وزن التصويت
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        className="w-14 rounded-lg border-2 px-2 py-1.5 text-center text-xs"
+                        style={{ borderColor: "var(--color-border)" }}
+                        value={judgeWeights[j.accepted_user_id] ?? 1}
+                        onChange={(e) => updateJudgeWeight(j.accepted_user_id!, Math.max(1, Number(e.target.value) || 1))}
+                      />
+                    </div>
+                  ) : null}
                   {!j.used_at ? (
                     <button
                       type="button"

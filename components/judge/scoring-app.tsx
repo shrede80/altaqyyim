@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -39,7 +39,7 @@ export function JudgeScoringApp({
   initialScores: { participant_id: string; criterion_id: string; points: number; is_locked: boolean }[];
   requestedEditParticipantIds: string[];
 }) {
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const { showToast } = useToast();
 
   const [screen, setScreen] = useState<"list" | "scoring" | "locked">("list");
@@ -52,32 +52,14 @@ export function JudgeScoringApp({
     }
     return map;
   });
-  const [isOnline, setIsOnline] = useState(true);
-  const [pending, setPending] = useState<PendingWrite[]>([]);
+  // القيم الأولية تُقرأ مباشرة عند التهيئة (لا داخل Effect) لأن هذا مكوّن
+  // عميل بالكامل يُركَّب مرة واحدة لكل مسابقة — لا حاجة لمزامنة SSR هنا.
+  const [isOnline, setIsOnline] = useState(() => (typeof navigator === "undefined" ? true : navigator.onLine));
+  const [pending, setPending] = useState<PendingWrite[]>(() => loadPendingWrites(competitionId));
   const [requestedEdit, setRequestedEdit] = useState<Set<string>>(new Set(requestedEditParticipantIds));
   const isFlushing = useRef(false);
 
-  useEffect(() => {
-    setIsOnline(navigator.onLine);
-    setPending(loadPendingWrites(competitionId));
-
-    function onOnline() {
-      setIsOnline(true);
-      void flushPending();
-    }
-    function onOffline() {
-      setIsOnline(false);
-    }
-    window.addEventListener("online", onOnline);
-    window.addEventListener("offline", onOffline);
-    return () => {
-      window.removeEventListener("online", onOnline);
-      window.removeEventListener("offline", onOffline);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function flushPending() {
+  const flushPending = useCallback(async () => {
     if (isFlushing.current) return;
     isFlushing.current = true;
     try {
@@ -121,7 +103,23 @@ export function JudgeScoringApp({
     } finally {
       isFlushing.current = false;
     }
-  }
+  }, [competitionId, judgeId, showToast, supabase]);
+
+  useEffect(() => {
+    function onOnline() {
+      setIsOnline(true);
+      void flushPending();
+    }
+    function onOffline() {
+      setIsOnline(false);
+    }
+    window.addEventListener("online", onOnline);
+    window.addEventListener("offline", onOffline);
+    return () => {
+      window.removeEventListener("online", onOnline);
+      window.removeEventListener("offline", onOffline);
+    };
+  }, [flushPending]);
 
   function scoreCountFor(participantId: string) {
     return criteria.filter((c) => scores[scoreKey(participantId, c.id)] !== undefined).length;

@@ -1,30 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-function currentTheme(): "light" | "dark" {
-  if (typeof document === "undefined") return "light";
+type Theme = "light" | "dark";
+
+// data-theme يتغيّر فقط عبر toggle() أدناه، لذا مستمعو التغيير محليون هنا
+// (لا حاجة لمراقبة MutationObserver) — تماماً كما يوصي useSyncExternalStore
+// للحالة الخارجية (DOM/localStorage) بدل استدعاء setState داخل Effect.
+const listeners = new Set<() => void>();
+
+function notify() {
+  listeners.forEach((l) => l());
+}
+
+function subscribe(callback: () => void) {
+  listeners.add(callback);
+  return () => listeners.delete(callback);
+}
+
+function getSnapshot(): Theme {
   const explicit = document.documentElement.getAttribute("data-theme");
   if (explicit === "dark" || explicit === "light") return explicit;
   return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-export function ThemeToggle({ className = "" }: { className?: string }) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+function getServerSnapshot(): Theme {
+  return "light";
+}
 
-  useEffect(() => {
-    setTheme(currentTheme());
-  }, []);
+export function ThemeToggle({ className = "" }: { className?: string }) {
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   function toggle() {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
+    const next: Theme = theme === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     try {
       localStorage.setItem("taqyeem_theme", next);
     } catch {
       // localStorage قد يكون غير متاح (وضع خاص) — التبديل يبقى يعمل لهذه الجلسة فقط
     }
+    notify();
   }
 
   return (

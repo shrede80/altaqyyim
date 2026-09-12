@@ -52,6 +52,7 @@ export interface Competition {
   aggregation_config: Record<string, unknown>;
   starts_at: string | null;
   ends_at: string | null;
+  published_at: string | null;
   created_by: string | null;
   created_at: string;
 }

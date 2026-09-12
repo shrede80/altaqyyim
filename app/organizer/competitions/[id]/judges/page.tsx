@@ -11,7 +11,7 @@ export default async function JudgesPage({ params }: { params: Promise<{ id: str
 
   const { data: competition } = await supabase
     .from("competitions")
-    .select("id")
+    .select("id, aggregation_rule, aggregation_config")
     .eq("id", id)
     .eq("org_id", ctx.orgId)
     .maybeSingle();
@@ -28,6 +28,8 @@ export default async function JudgesPage({ params }: { params: Promise<{ id: str
   ]);
 
   const origin = `${hdrs.get("x-forwarded-proto") ?? "https"}://${hdrs.get("host")}`;
+  const judgeWeights =
+    (competition.aggregation_config as { judgeWeights?: Record<string, number> } | null)?.judgeWeights ?? {};
 
   return (
     <AssignJudges
@@ -36,6 +38,8 @@ export default async function JudgesPage({ params }: { params: Promise<{ id: str
       initialAssignedJudgeIds={(assignments ?? []).map((a) => a.judge_id)}
       origin={origin}
       invitedBy={ctx.userId}
+      isWeighted={competition.aggregation_rule === "weighted_average"}
+      initialJudgeWeights={judgeWeights}
     />
   );
 }
