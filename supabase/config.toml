@@ -1,0 +1,4 @@
+project_id = "altaqyyim"
+
+[functions.link-judge]
+verify_jwt = false
