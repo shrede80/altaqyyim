@@ -1,0 +1,46 @@
+{
+  "_": "بيانات الأغلفة. لتوليد غلاف جديد: أضف عنصرًا هنا — لا حاجة لتعديل أي شيفرة.",
+  "_schema": {
+    "surface": "paper | ink | signal | clay",
+    "section": "radio | doc | skill  (يحدّد لون الشريط افتراضيًا)",
+    "name": "اسم البرنامج",
+    "line": "السطر الوصفي",
+    "expression": "bar/under | bar/edge | numeral/hero",
+    "numeral": "الرقم البطل — مع expression=numeral/hero فقط (يقبل ٦ أو 6)",
+    "tone": "اختياري: paper | ink | signal | clay — تجاوز مقصود للون القسم 🔒"
+  },
+  "covers": [
+    {
+      "surface": "ink",
+      "section": "radio",
+      "name": "مدار",
+      "line": "سؤال محوري واحد لكل ضيف",
+      "expression": "bar/under"
+    },
+    {
+      "surface": "signal",
+      "section": "radio",
+      "tone": "ink",
+      "name": "ستة أسئلة",
+      "line": "ستّة أسئلة ثابتة، ضيف متغيّر",
+      "expression": "numeral/hero",
+      "numeral": "٦"
+    },
+    {
+      "surface": "paper",
+      "section": "skill",
+      "tone": "ink",
+      "name": "هاوي",
+      "line": "هواية واحدة تُروى بيد صاحبها",
+      "expression": "bar/edge"
+    },
+    {
+      "surface": "clay",
+      "section": "doc",
+      "tone": "paper",
+      "name": "حصاد",
+      "line": "ما خرجنا به من الموسم",
+      "expression": "bar/under"
+    }
+  ]
+}

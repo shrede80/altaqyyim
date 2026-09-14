@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مذياع — معاينة الأغلفة</title>
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  body { padding: 20px; background: #E4E4E4; }
+  .lbl { font-size: 11px; font-weight: 500; letter-spacing: .05em; color: rgba(0,0,0,.55); margin-block-start: 8px; }
+  .g { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .g { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .g { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="mini-react.js"></script>
+<script src="../src/primitives/Board.js"></script>
+<script src="../src/primitives/Bar.js"></script>
+<script src="../src/primitives/Numeral.js"></script>
+<script src="../src/primitives/Logo.js"></script>
+<script src="../covers/Cover.js"></script>
+<script>
+(async function () {
+  const data = await (await fetch("../covers/covers.json")).json();
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(
+    React.createElement(
+      "div",
+      { className: "g" },
+      data.covers.map((c, i) =>
+        React.createElement(
+          "div",
+          { key: i },
+          React.createElement(Ds.Cover, c),
+          React.createElement("div", { className: "lbl" }, c.expression)
+        )
+      )
+    )
+  );
+})();
+</script>
+</body>
+</html>

@@ -9,16 +9,16 @@
    ⚠️ ملف Mestika يحوي محارف لاتينية فارغة، فتختفي الأرقام والكلمات اللاتينية وتتشابك.
    الحل: نحصر Mestika على نطاقات العربية عبر unicode-range، فتُرسم اللاتينية والأرقام
    بخط النظام المحايد (الرقم اللاتيني والمدة والتاريخ فقط — وهي بيانات ثانوية في V1.1). */
-@font-face{font-family:"Mestika";src:url("<mestika-100.otf>") format("opentype");font-weight:100;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-200.otf>") format("opentype");font-weight:200;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-300.otf>") format("opentype");font-weight:300;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-400.otf>") format("opentype");font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-500.otf>") format("opentype");font-weight:500;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-600.otf>") format("opentype");font-weight:600;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-700.otf>") format("opentype");font-weight:700;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-800.otf>") format("opentype");font-weight:800;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-@font-face{font-family:"Mestika";src:url("<mestika-900.otf>") format("opentype");font-weight:900;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
-/* ⚠️ روابط src أعلاه كانت UUID لأصول Base64 مضمَّنة داخل حزمة الفك؛ استبدلها بمسارات ملفات otf الفعلية عند الاستخراج. راجع "فجوات معروفة" في system.md. */
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-100.otf") format("opentype");font-weight:100;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-200.otf") format("opentype");font-weight:200;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-300.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-400.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-500.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-600.otf") format("opentype");font-weight:600;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-700.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-800.otf") format("opentype");font-weight:800;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+@font-face{font-family:"Mestika";src:url("assets/fonts/Mestika-900.otf") format("opentype");font-weight:900;font-style:normal;font-display:swap;unicode-range:U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+061F, U+060C, U+0640}
+/* ملفات otf أعلاه مستخرَجة فعليًا من مانفست الحزمة إلى assets/fonts/ — المسارات نسبية لموقع هذا الملف. */
 
 /* ============ ألوان أساسية — أربعة ألوان (M). الشفافية مسموحة، اللون الخامس ممنوع 🔒 ============ */
 :root{
