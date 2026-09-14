@@ -25,6 +25,18 @@ python3 -m http.server 8000 --directory design-system
 `section`: `radio` · `doc` · `skill` —
 `expression`: `bar/under` · `bar/edge` · `numeral/hero`
 
+## تصدير نسخة قائمة بذاتها
+
+```bash
+node design-system/build-export.mjs
+```
+
+يولّد [`export/mazyaa-covers.html`](export/mazyaa-covers.html) — ملف واحد (~1.7MB)
+يحوي كل شيء مضمَّنًا: التوكينات، ٩ أوزان Mestika، الشعار بنسختيه، ١٧ مكوّنًا،
+والبيانات. يُفتح بالنقر المزدوج: بلا خادم، بلا اتصال، بلا سكربت فك تعبئة.
+
+أعد التوليد بعد أي تعديل على المصدر — لا تحرّر الملف المُصدَّر يدويًا.
+
 ## فحص قواعد العلامة
 
 ```bash
@@ -47,6 +59,7 @@ node design-system/validate.mjs --all    # يشمل مساحة العمل
 | `src/workspace/` | ٣ وحدات أداة تفاعلية — سطح منفصل، ليست جزءًا من نظام الهوية |
 | `covers/` | `Cover.js` + بيانات الأغلفة |
 | `preview/` | معاينة عاملة + مُصيّر صغير بديل عن React |
+| `export/` | النسخة النهائية كملف HTML واحد قائم بذاته (مولَّد) |
 | `assets/` | ٩ أوزان Mestika + الشعار بنسختيه |
 
 ## القواعد الأربع الكبرى

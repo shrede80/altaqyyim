@@ -37,6 +37,9 @@ python3 -m http.server 8000 --directory design-system
 # فحص القواعد المقفلة آليًا
 node design-system/validate.mjs          # النواة
 node design-system/validate.mjs --all    # يشمل مساحة العمل
+
+# تصدير نسخة HTML واحدة قائمة بذاتها
+node design-system/build-export.mjs      # ← export/mazyaa-covers.html
 ```
 
 **لتوليد غلاف جديد لا تكتب شيفرة** — أضف عنصرًا في `covers/covers.json`:
@@ -64,6 +67,8 @@ design-system/
 ├── covers/covers.json      بيانات الأغلفة
 ├── preview/index.html      معاينة عاملة
 ├── preview/mini-react.js   مُصيّر ٤٠ سطرًا بديل عن React للمخرجات الثابتة
+├── build-export.mjs        مولّد نسخة HTML واحدة قائمة بذاتها
+├── export/mazyaa-covers.html   المخرَج (مولَّد — لا يُحرَّر يدويًا)
 └── validate.mjs            فاحص القواعد المقفلة
 ```
 
