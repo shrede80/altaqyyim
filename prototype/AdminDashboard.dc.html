@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--ok:#2B7A4B;--part:#A0640F;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C;--desk:#E4E1DA;--accent-ink:var(--accent);--accent-soft:color-mix(in oklch,var(--accent) 12%,transparent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--ok:#62BE88;--part:#E3A64B;--none:#7A766E;--warn:#EA7F66;--desk:#050505;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff);--accent-soft:color-mix(in oklch,var(--accent) 26%,transparent)}
+[data-mq] *{box-sizing:border-box}
+[data-mq] a{color:inherit}
+[data-mq] a:hover{opacity:.82}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-component="AdminDashboard" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:4px;height:56px;padding:0 8px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0">
+    <a href="{{ backHref }}" aria-label="المسابقات" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;border-radius:12px">→</a>
+    <span style="font-size:15px;font-weight:500;color:var(--text2)">لوحة المدير</span>
+    <div style="flex:1"></div>
+    <span style="font-size:15px;font-weight:700;padding:0 12px">المقيّم</span>
+  </div>
+  <div style="flex:1;overflow-y:auto">
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:12px;padding:24px 20px">
+        <div style="height:36px;width:50%;border-radius:8px;background:var(--fill)"></div>
+        <div style="height:10px;border-radius:5px;background:var(--fill)"></div>
+        <div style="height:84px;border-radius:12px;background:var(--fill);margin-top:16px"></div>
+        <div style="height:84px;border-radius:12px;background:var(--fill)"></div>
+        <div style="height:84px;border-radius:12px;background:var(--fill)"></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:920px;margin:0 auto;padding:24px 20px 32px;display:flex;flex-direction:column;gap:22px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px">
+            <h1 style="margin:0;font-size:30px;line-height:1.2;font-weight:700">{{ title }}</h1>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:99px;font-size:14px;font-weight:500;background:var(--fill)"><span style="width:8px;height:8px;border-radius:50%;background:{{ statusColor }}"></span>{{ statusLabel }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="height:10px;border-radius:5px;background:var(--fill);overflow:hidden"><div style="height:100%;background:var(--accent);border-radius:5px;width:{{ pct }}"></div></div>
+            <div style="font-size:16px;font-weight:500"><span dir="ltr">{{ done }}</span> من <span dir="ltr">{{ total }}</span> تقييم</div>
+          </div>
+          <sc-if value="{{ frozen }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:14px;color:var(--text2)">
+              <span>البنود والحدود مقفلة لأن التحكيم بدأ · المجموع الكامل {{ maxTotal }}</span>
+              <a href="{{ editHref }}" style="font-weight:500;color:var(--text)">عرض البنود</a>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ isDraft }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:18px;border-radius:16px;border:1px dashed var(--border);background:var(--surface)">
+            <div style="flex:1 1 220px;display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:17px;font-weight:700">جرّبها قبل ما ترسل</div>
+              <div style="font-size:15px;color:var(--text2);line-height:1.5">نسخة وهمية تقيّم فيها بنفسك، ولا تأثر على المسابقة.</div>
+            </div>
+            <button onClick="{{ tryDemo }}" style="height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--text);background:transparent;color:var(--text);font:inherit;font-size:16px;font-weight:500;cursor:pointer">جرّب بمسابقة وهمية</button>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <h2 style="margin:0;font-size:20px;font-weight:700">المحكّمون</h2>
+            <span style="font-size:15px;color:var(--text2)">{{ judgeCount }}</span>
+            <div style="flex:1"></div>
+            <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ openAdd }}" style="height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:15px;font-weight:500;cursor:pointer">+ أضف محكّم</button>
+            </sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;border:1px solid var(--border);border-radius:16px;background:var(--surface)">
+            <sc-for list="{{ judges }}" as="r" hint-placeholder-count="4">
+              <div data-component="JudgeStatusRow" style="position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:14px 16px;border-bottom:1px solid var(--border)">
+                <div style="flex:1 1 200px;display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+                    <span style="font-size:18px;font-weight:700">{{ r.name }}</span>
+                    <span style="font-size:15px;font-weight:500;color:{{ r.color }}">{{ r.icon }} {{ r.statusText }}</span>
+                  </div>
+                  <sc-if value="{{ r.hasEx }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:14px;color:var(--text2)">مستثنى من: {{ r.exText }}</span>
+                  </sc-if>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <a href="{{ r.wa }}" target="_blank" rel="noopener" style="display:flex;align-items:center;height:44px;padding:0 14px;border-radius:12px;background:{{ r.waBg }};color:{{ r.waFg }};border:1px solid {{ r.waBd }};text-decoration:none;font-size:15px;font-weight:500;white-space:nowrap">{{ r.waLabel }}</a>
+                  <button onClick="{{ r.openQr }}" style="height:44px;min-width:48px;padding:0 10px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:14px;font-weight:700;cursor:pointer">QR</button>
+                  <button onClick="{{ r.toggleMenu }}" aria-label="خيارات" style="height:44px;width:48px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:20px;line-height:1;cursor:pointer">⋯</button>
+                </div>
+                <sc-if value="{{ r.menuOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:16px;top:62px;z-index:5;width:230px;display:flex;flex-direction:column;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--border);box-shadow:0 18px 40px -12px rgba(0,0,0,.3)">
+                    <button onClick="{{ r.newLink }}" style="height:48px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:var(--text);font:inherit;font-size:15px;text-align:right;cursor:pointer">رابط جديد</button>
+                    <button onClick="{{ r.openExclude }}" style="height:48px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:var(--text);font:inherit;font-size:15px;text-align:right;cursor:pointer">استثناء من مجموعة</button>
+                    <button onClick="{{ r.openRemove }}" style="height:48px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:var(--warn);font:inherit;font-size:15px;text-align:right;cursor:pointer">إزالة</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:16px;right:16px;bottom:120px;display:flex;justify-content:center;pointer-events:none;z-index:8">
+      <div style="padding:12px 18px;border-radius:12px;background:var(--text);color:var(--bg);font-size:15px;font-weight:500;max-width:420px;text-align:center">{{ toast }}</div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+    <div style="flex-shrink:0;border-top:1px solid var(--border);background:var(--surface);padding:12px 16px 16px">
+      <div style="max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:8px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <a href="{{ resultsHref }}" style="display:flex;align-items:center;justify-content:center;height:52px;border-radius:14px;border:1px solid var(--text);text-decoration:none;font-size:17px;font-weight:700">النتائج</a>
+          <button onClick="{{ primary.action }}" disabled="{{ primary.disabled }}" style="height:52px;border-radius:14px;border:0;font:inherit;font-size:17px;font-weight:700;cursor:pointer;background:{{ primary.bg }};color:{{ primary.fg }}">{{ primary.label }}</button>
+        </div>
+        <sc-if value="{{ showForce }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ openLock }}" style="align-self:flex-start;height:36px;padding:0 4px;border:0;background:transparent;color:var(--text2);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer">اقفل رغم النقص</button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:10"></div>
+    <div style="position:absolute;right:0;left:0;bottom:0;z-index:11;display:flex;justify-content:center">
+      <div style="width:100%;max-width:520px;max-height:88%;overflow-y:auto;background:var(--surface);border-radius:22px 22px 0 0;padding:22px 20px 24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="flex:1;font-size:20px;font-weight:700">{{ sheetTitle }}</div>
+          <button onClick="{{ closeSheet }}" aria-label="إغلاق" style="width:44px;height:44px;border-radius:12px;border:0;background:var(--fill);color:var(--text);font:inherit;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <sc-if value="{{ sheet.qr }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+            <div style="padding:14px;background:#fff;border-radius:12px;border:1px solid var(--border)">
+              <div style="display:grid;grid-template-columns:repeat(25,8px);grid-auto-rows:8px">
+                <sc-for list="{{ qrCells }}" as="c" hint-placeholder-count="0"><div style="background:{{ c }}"></div></sc-for>
+              </div>
+            </div>
+            <div style="font-size:15px;color:var(--text2);text-align:center">يصوّره المحكّم بكاميرا جواله ويفتح مباشرة</div>
+            <div dir="ltr" style="font-size:12px;color:var(--text2);word-break:break-all;text-align:center">{{ sheetLink }}</div>
+            <button onClick="{{ copyLink }}" style="height:48px;width:100%;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:16px;font-weight:500;cursor:pointer">{{ copyLabel }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sheet.exclude }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:15px;color:var(--text2);line-height:1.5">المجموعة المستثناة تختفي من قائمته ولا تُحسب عليه ناقصة. مثلاً: قرابة.</div>
+          <div style="display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px">
+            <sc-for list="{{ exGroups }}" as="g" hint-placeholder-count="6">
+              <button onClick="{{ g.toggle }}" style="display:flex;align-items:center;gap:12px;height:52px;padding:0 14px;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-size:17px;text-align:right;cursor:pointer">
+                <span style="width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid {{ g.bd }};background:{{ g.bg }};color:#fff">{{ g.mark }}</span>
+                <span style="flex:1">{{ g.name }}</span>
+                <span style="font-size:14px;color:var(--text2)">{{ g.note }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <button onClick="{{ closeSheet }}" style="height:52px;border-radius:14px;border:0;background:var(--text);color:var(--bg);font:inherit;font-size:17px;font-weight:700;cursor:pointer">تم</button>
+        </sc-if>
+        <sc-if value="{{ sheet.add }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ hasSaved }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:14px;font-weight:500;color:var(--text2)">من المحكّمين المحفوظين</div>
+            <div style="display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px">
+              <sc-for list="{{ savedJudges }}" as="s" hint-placeholder-count="1">
+                <button onClick="{{ s.add }}" style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 14px;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-size:17px;cursor:pointer"><span>{{ s.name }}</span><span style="font-size:15px;font-weight:500;color:var(--accent-ink)">+ أضف</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="font-size:14px;font-weight:500;color:var(--text2)">محكّم جديد</div>
+          <div style="display:flex;gap:8px">
+            <input value="{{ newName }}" onChange="{{ onNewName }}" placeholder="الاسم" style="flex:1;min-width:0;height:52px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:inherit;font-size:17px">
+            <button onClick="{{ addNew }}" style="height:52px;padding:0 18px;border-radius:12px;border:0;background:var(--text);color:var(--bg);font:inherit;font-size:16px;font-weight:700;cursor:pointer">أضف</button>
+          </div>
+          <div style="font-size:14px;color:var(--text2)">ينحفظ في قائمة النادي، ويطلع له رابط خاص ترسله بالواتساب.</div>
+        </sc-if>
+        <sc-if value="{{ sheet.lock }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:16px;line-height:1.6">هذا الناقص بالضبط:</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ missing }}" as="m" hint-placeholder-count="2">
+              <div style="display:flex;gap:10px;padding:12px 14px;border-radius:12px;background:var(--fill);font-size:16px;line-height:1.5"><b style="flex-shrink:0">{{ m.name }}</b><span>{{ m.text }}</span></div>
+            </sc-for>
+          </div>
+          <div style="font-size:15px;color:var(--text2);line-height:1.6">المتوسط يُحسب بدون الدرجات الناقصة، وبعد القفل ما يقدر أحد يعدّل.</div>
+          <button onClick="{{ doLock }}" style="height:52px;border-radius:14px;border:0;background:var(--warn);color:#fff;font:inherit;font-size:17px;font-weight:700;cursor:pointer">اقفل التحكيم</button>
+        </sc-if>
+        <sc-if value="{{ sheet.remove }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:16px;line-height:1.6">يتعطّل رابطه، ودرجاته ما تدخل في المتوسط.</div>
+          <button onClick="{{ doRemove }}" style="height:52px;border-radius:14px;border:0;background:var(--warn);color:#fff;font:inherit;font-size:17px;font-weight:700;cursor:pointer">أزله</button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false, menu: null, sheet: null, sj: null, newName: '', toast: '', copied: false };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() { this.detach && this.detach(); clearTimeout(this.tt); }
+  applyAccent() { if (this.root && this.accent) this.root.style.setProperty('--accent', this.accent); }
+  P() { return this.props.params || (window.Muq ? Muq.params() : {}); }
+  toast(msg) { this.setState({ toast: msg }); clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
+  qr(token) {
+    let h = 0; const cells = [];
+    const rnd = i => { h = (h * 31 + token.charCodeAt(i % token.length) + i * 7) >>> 0; return (h >> 5) & 1; };
+    const finder = (x, y, ox, oy) => { const dx = x - ox, dy = y - oy; if (dx < 0 || dy < 0 || dx > 6 || dy > 6) return null; return dx === 0 || dy === 0 || dx === 6 || dy === 6 || (dx > 1 && dx < 5 && dy > 1 && dy < 5); };
+    for (let y = 0; y < 25; y++) for (let x = 0; x < 25; x++) {
+      let f = finder(x, y, 0, 0); if (f === null) f = finder(x, y, 18, 0); if (f === null) f = finder(x, y, 0, 18);
+      const near = (x < 8 && y < 8) || (x > 16 && y < 8) || (x < 8 && y > 16);
+      cells.push(f !== null ? (f ? '#111' : '#fff') : near ? '#fff' : rnd(y * 25 + x) ? '#111' : '#fff');
+    }
+    return cells;
+  }
+  renderVals() {
+    const p = this.P();
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const base = { theme, rootRef: el => { this.root = el; this.applyAccent(); }, loading: true, ready: false, judges: [], sheetOpen: false, sheet: {}, toast: '', backHref: '#', primary: {} };
+    if (!this.state.ready || p.state === 'loading') return base;
+    const cid = p.comp || 'c1', comp = Muq.comp(cid) || Muq.db.competitions[0];
+    this.accent = comp.accent;
+    const status = Muq.status(comp, p);
+    const prog = Muq.compProgress(cid);
+    const as = Muq.assignments(cid);
+    const groups = Muq.groups(cid);
+    const allDone = prog.total > 0 && prog.done === prog.total;
+    const S = this.state;
+    const close = () => this.setState({ sheet: null, sj: null, menu: null, copied: false });
+    const judges = as.map(a => {
+      const j = Muq.judge(a.judgeId), pr = Muq.progress(cid, a.judgeId);
+      const ex = (a.excludedGroupIds || []).map(id => groups.find(g => g.id === id)).filter(Boolean).map(g => g.name);
+      const st = { done: ['✓', pr.done + ' من ' + pr.total, 'var(--ok)'], partial: ['◐', pr.done + ' من ' + pr.total, 'var(--part)'], none: ['○', 'لم يبدأ', 'var(--none)'] }[pr.status];
+      const resend = pr.status !== 'done';
+      return {
+        name: j.name, icon: st[0], statusText: st[1], color: st[2], hasEx: ex.length > 0, exText: Muq.joinAr(ex),
+        wa: Muq.waLink(j.name, comp, a.token), waLabel: resend ? 'أعد الإرسال' : 'واتساب',
+        waBg: resend && status === 'judging' ? 'var(--text)' : 'var(--surface)', waFg: resend && status === 'judging' ? 'var(--bg)' : 'var(--text)', waBd: resend && status === 'judging' ? 'var(--text)' : 'var(--border)',
+        menuOpen: S.menu === a.judgeId,
+        toggleMenu: () => this.setState({ menu: S.menu === a.judgeId ? null : a.judgeId }),
+        openQr: () => this.setState({ sheet: 'qr', sj: a.judgeId, menu: null }),
+        openExclude: () => this.setState({ sheet: 'exclude', sj: a.judgeId, menu: null }),
+        openRemove: () => this.setState({ sheet: 'remove', sj: a.judgeId, menu: null }),
+        newLink: () => { Muq.update(() => { a.token = Muq.newToken(); }); this.setState({ menu: null }); this.toast('رابط جديد لـ' + j.name + '، والقديم تعطّل. الدرجات باقية.'); }
+      };
+    });
+    const sa = as.find(a => a.judgeId === S.sj), sjName = sa ? Muq.judge(sa.judgeId).name : '';
+    const titles = { qr: 'رابط ' + sjName, exclude: 'استثناء ' + sjName + ' من مجموعة', add: 'أضف محكّم', lock: 'اقفل رغم النقص؟', remove: 'إزالة ' + sjName + ' من المسابقة؟' };
+    const exGroups = sa ? groups.map(g => {
+      const on = (sa.excludedGroupIds || []).includes(g.id);
+      return { name: g.name, mark: on ? '✓' : '', bg: on ? 'var(--accent)' : 'transparent', bd: on ? 'var(--accent)' : 'var(--border)', note: on ? 'مستثناة' : '',
+        toggle: () => Muq.update(() => { const e = sa.excludedGroupIds || (sa.excludedGroupIds = []); const i = e.indexOf(g.id); if (i >= 0) e.splice(i, 1); else e.push(g.id); }) };
+    }) : [];
+    const assigned = as.map(a => a.judgeId);
+    const addJudge = jid => {
+      Muq.update(d => {
+        const old = d.assignments.find(a => a.competitionId === cid && a.judgeId === jid);
+        if (old) { old.removed = false; old.token = Muq.newToken(); }
+        else d.assignments.push({ competitionId: cid, judgeId: jid, token: Muq.newToken(), excludedGroupIds: [] });
+      });
+      close(); this.toast('أُضيف ' + Muq.judge(jid).name + '. أرسل له الرابط بالواتساب.');
+    };
+    const R = Muq.results(cid);
+    const missing = R.missing.map(m => ({ name: m.judge.name, text: m.all ? 'لم يقيّم أي مجموعة (' + m.groups.length + ')' : 'لم يقيّم ' + Muq.joinAr(m.groups.map(g => g.name)) }));
+    const doLock = () => { Muq.update(() => { comp.status = 'locked'; }); close(); this.toast('انقفل التحكيم.'); };
+    const STATUS_COLOR = { draft: 'var(--none)', judging: 'var(--accent)', locked: 'var(--text)', revealed: 'var(--ok)' };
+    let primary;
+    if (status === 'judging') primary = { label: 'قفل التحكيم', disabled: !allDone, action: doLock, bg: allDone ? 'var(--accent)' : 'var(--fill)', fg: allDone ? '#fff' : 'var(--none)' };
+    else if (status === 'locked') primary = { label: 'ابدأ الإعلان', disabled: false, action: () => Muq.go('reveal', { comp: cid, step: '0' }), bg: 'var(--accent)', fg: '#fff' };
+    else if (status === 'draft') primary = { label: 'أرسل للمحكّمين', disabled: false, action: () => Muq.update(() => { comp.status = 'judging'; }), bg: 'var(--accent)', fg: '#fff' };
+    else primary = { label: 'شاشة الإعلان', disabled: false, action: () => Muq.go('reveal', { comp: cid, step: '0' }), bg: 'var(--text)', fg: 'var(--bg)' };
+    return {
+      ...base, loading: false, ready: true,
+      backHref: Muq.href('competitions', {}), title: comp.title, statusLabel: Muq.STATUS[status], statusColor: STATUS_COLOR[status],
+      done: prog.done, total: prog.total, pct: (prog.total ? prog.done / prog.total * 100 : 0) + '%',
+      frozen: Muq.hasScores(cid), maxTotal: Muq.maxTotal(cid), editHref: Muq.href('create', { edit: cid }),
+      isDraft: status === 'draft', canEdit: status === 'judging' || status === 'draft',
+      tryDemo: () => {
+        const id = cid + '_demo';
+        Muq.update(d => {
+          if (!d.judges.find(j => j.id === 'demo')) d.judges.push({ id: 'demo', clubId: d.club.id, name: 'المدير' });
+          if (!d.competitions.find(c => c.id === id)) {
+            d.competitions.push({ ...comp, id, title: comp.title + ' (تجربة)', status: 'judging', demo: true });
+            Muq.criteria(cid).forEach(k => d.criteria.push({ ...k, id: k.id + '_d', competitionId: id }));
+            Muq.groups(cid).forEach(g => d.groups.push({ ...g, id: g.id + '_d', competitionId: id }));
+            d.assignments.push({ competitionId: id, judgeId: 'demo', token: 'demo-' + cid, excludedGroupIds: [] });
+          }
+        });
+        Muq.go('judge-home', { t: 'demo-' + cid, device: '' });
+      },
+      judgeCount: as.length, judges,
+      openAdd: () => this.setState({ sheet: 'add', menu: null }),
+      resultsHref: Muq.href('results', { comp: cid, device: p.device }),
+      primary, showForce: status === 'judging' && !allDone,
+      openLock: () => this.setState({ sheet: 'lock', menu: null }), doLock, missing,
+      toast: S.toast,
+      sheetOpen: !!S.sheet, sheet: { qr: S.sheet === 'qr', exclude: S.sheet === 'exclude', add: S.sheet === 'add', lock: S.sheet === 'lock', remove: S.sheet === 'remove' },
+      sheetTitle: titles[S.sheet] || '', closeSheet: close,
+      qrCells: S.sheet === 'qr' && sa ? this.qr(sa.token) : [],
+      sheetLink: sa ? Muq.judgeUrl(sa.token) : '',
+      copyLabel: S.copied ? '✓ نُسخ الرابط' : 'انسخ الرابط',
+      copyLink: () => { try { navigator.clipboard.writeText(Muq.judgeUrl(sa.token)); } catch (e) {} this.setState({ copied: true }); },
+      exGroups,
+      savedJudges: Muq.db.judges.filter(j => j.id !== 'demo' && !j.archived && !assigned.includes(j.id)).map(j => ({ name: j.name, add: () => addJudge(j.id) })),
+      hasSaved: Muq.db.judges.some(j => j.id !== 'demo' && !j.archived && !assigned.includes(j.id)),
+      newName: S.newName, onNewName: e => this.setState({ newName: e.target.value }),
+      addNew: () => {
+        const name = S.newName.trim(); if (!name) return;
+        const id = 'j' + Date.now();
+        Muq.update(d => { d.judges.push({ id, clubId: d.club.id, name }); });
+        this.setState({ newName: '' }); addJudge(id);
+      },
+      doRemove: () => { Muq.update(() => { sa.removed = true; }); const n = sjName; close(); this.toast('أُزيل ' + n + ' وتعطّل رابطه.'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

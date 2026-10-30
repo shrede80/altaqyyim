@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--ok:#2B7A4B;--part:#A0640F;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C;--desk:#E4E1DA;--accent-ink:var(--accent);--accent-soft:color-mix(in oklch,var(--accent) 12%,transparent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--ok:#62BE88;--part:#E3A64B;--none:#7A766E;--warn:#EA7F66;--desk:#050505;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff);--accent-soft:color-mix(in oklch,var(--accent) 26%,transparent)}
+[data-mq] *{box-sizing:border-box}
+[data-mq] a{color:inherit}
+[data-mq] a:hover{opacity:.82}
+[data-mq] input::placeholder,[data-mq] textarea::placeholder{color:var(--none)}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-component="CreateCompetition" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:4px;height:56px;padding:0 8px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0">
+    <a href="{{ backHref }}" aria-label="رجوع" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;border-radius:12px">→</a>
+    <span style="font-size:18px;font-weight:700">{{ heading }}</span>
+  </div>
+  <div style="flex:1;overflow-y:auto">
+    <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:640px;margin:0 auto;padding:8px 20px 40px;display:flex;flex-direction:column">
+      <sc-if value="{{ copiedFrom }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:16px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);font-size:15px;line-height:1.6">منسوخة من «{{ copiedFrom }}»: البنود والمحكّمون والتخصيص. أضف المجموعات.</div>
+      </sc-if>
+
+      <section style="display:flex;flex-direction:column;gap:14px;padding:24px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:10px"><span style="width:28px;height:28px;border-radius:50%;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">1</span><h2 style="margin:0;font-size:20px;font-weight:700">الاسم</h2></div>
+        <input value="{{ f.name }}" onChange="{{ onName }}" placeholder="مثلاً: مسابقة الطبخ" style="height:56px;padding:0 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:18px">
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:15px;font-weight:500">الرقم السري للمدير</span>
+          <input value="{{ f.pin }}" onChange="{{ onPin }}" inputmode="numeric" lang="en" dir="ltr" maxlength="4" placeholder="4 أرقام" style="height:56px;width:180px;padding:0 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:22px;letter-spacing:8px;text-align:center">
+          <span style="font-size:14px;color:var(--text2)">تحتاجه لفتح لوحة هذه المسابقة.</span>
+        </label>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:14px;padding:24px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:10px"><span style="width:28px;height:28px;border-radius:50%;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">2</span><h2 style="margin:0;font-size:20px;font-weight:700">البنود</h2></div>
+        <sc-if value="{{ critLocked }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:12px 14px;border-radius:12px;background:var(--fill);font-size:15px;font-weight:500">البنود مقفلة لأن التحكيم بدأ</div>
+        </sc-if>
+        <sc-if value="{{ critEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:2px;color:var(--text2)">
+            <span style="font-size:16px">ابدأ بأول بند، مثل: <b style="color:var(--text)">الطعم من 15</b></span>
+            <span style="font-size:22px;line-height:1;padding-right:72px">↓</span>
+          </div>
+        </sc-if>
+        <sc-for list="{{ crits }}" as="k" hint-placeholder-count="1">
+          <div style="display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--border)">
+            <div style="display:flex;gap:8px">
+              <input value="{{ k.emoji }}" onChange="{{ k.onEmoji }}" readOnly="{{ critLocked }}" placeholder="☺" aria-label="إيموجي (اختياري)" style="width:52px;height:52px;flex-shrink:0;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:inherit;font-size:22px;text-align:center">
+              <input value="{{ k.name }}" onChange="{{ k.onName }}" readOnly="{{ critLocked }}" placeholder="اسم البند" style="flex:1;min-width:0;height:52px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:inherit;font-size:17px">
+              <sc-if value="{{ critEditable }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ k.remove }}" aria-label="احذف البند" style="width:48px;height:52px;flex-shrink:0;border:0;border-radius:12px;background:transparent;color:var(--text2);font:inherit;font-size:20px;cursor:pointer">✕</button>
+              </sc-if>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="font-size:14px;color:var(--text2);margin-left:4px">الحد</span>
+              <sc-for list="{{ k.quick }}" as="q" hint-placeholder-count="4">
+                <button onClick="{{ q.pick }}" style="width:48px;height:44px;border-radius:10px;font:inherit;font-size:16px;cursor:pointer;border:1px solid {{ q.bd }};background:{{ q.bg }};color:{{ q.fg }};font-weight:{{ q.fw }}">{{ q.n }}</button>
+              </sc-for>
+              <input value="{{ k.maxText }}" onChange="{{ k.onMax }}" readOnly="{{ critLocked }}" inputmode="numeric" lang="en" dir="ltr" placeholder="رقم" aria-label="حد حر" style="width:68px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:inherit;font-size:16px;text-align:center">
+            </div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ critEditable }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ addCrit }}" style="height:48px;border-radius:12px;border:1px dashed var(--border);background:transparent;color:var(--text);font:inherit;font-size:16px;font-weight:500;cursor:pointer">+ أضف بند</button>
+        </sc-if>
+        <div style="font-size:17px;font-weight:500">المجموع الكامل: <b>{{ sum }}</b></div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:12px;padding:24px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:10px"><span style="width:28px;height:28px;border-radius:50%;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">3</span><h2 style="margin:0;font-size:20px;font-weight:700">المجموعات</h2><span style="font-size:15px;color:var(--text2)">{{ groupCount }}</span></div>
+        <textarea value="{{ f.groupsText }}" onChange="{{ onGroups }}" rows="5" placeholder="اكتب أو الصق الأسماء، كل اسم في سطر" style="padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:17px;line-height:1.7;resize:vertical"></textarea>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{ groupChips }}" as="g" hint-placeholder-count="0"><span style="padding:4px 12px;border-radius:99px;background:var(--fill);font-size:15px">{{ g }}</span></sc-for>
+        </div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:12px;padding:24px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:10px"><span style="width:28px;height:28px;border-radius:50%;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">4</span><h2 style="margin:0;font-size:20px;font-weight:700">المحكّمون</h2><span style="font-size:15px;color:var(--text2)">{{ judgeCount }}</span></div>
+        <div style="display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;background:var(--surface)">
+          <sc-for list="{{ judges }}" as="j" hint-placeholder-count="5">
+            <button onClick="{{ j.toggle }}" style="display:flex;align-items:center;gap:12px;height:52px;padding:0 14px;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-size:17px;text-align:right;cursor:pointer">
+              <span style="width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;border:2px solid {{ j.bd }};background:{{ j.bg }}">{{ j.mark }}</span>{{ j.name }}
+            </button>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px">
+          <input value="{{ f.newJudge }}" onChange="{{ onNewJudge }}" placeholder="+ محكّم جديد" style="flex:1;min-width:0;height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:16px">
+          <button onClick="{{ addJudge }}" style="height:48px;padding:0 16px;border-radius:12px;border:1px solid var(--text);background:transparent;color:var(--text);font:inherit;font-size:15px;font-weight:500;cursor:pointer">أضف</button>
+        </div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;padding:12px 0;border-bottom:1px solid var(--border)">
+        <button onClick="{{ toggleCust }}" style="display:flex;align-items:center;gap:10px;min-height:56px;padding:0;border:0;background:transparent;color:var(--text);font:inherit;text-align:right;cursor:pointer">
+          <span style="width:28px;height:28px;border-radius:50%;border:2px solid var(--text);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">5</span>
+          <span style="display:flex;flex-direction:column;flex:1">
+            <span style="font-size:20px;font-weight:700">تخصيص (اختياري)</span>
+            <span style="font-size:14px;color:var(--text2)">{{ custSummary }}</span>
+          </span>
+          <span style="font-size:20px;color:var(--text2)">{{ custChevron }}</span>
+        </button>
+        <sc-if value="{{ custOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:22px;padding:14px 0 16px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:15px;font-weight:500">لون المسابقة</span>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <sc-for list="{{ swatches }}" as="s" hint-placeholder-count="6">
+                  <button onClick="{{ s.pick }}" aria-label="{{ s.label }}" style="width:48px;height:48px;border-radius:50%;cursor:pointer;background:{{ s.color }};border:3px solid var(--bg);box-shadow:0 0 0 2px {{ s.ring }}"></button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:15px;font-weight:500">شعار</span>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <sc-for list="{{ logos }}" as="l" hint-placeholder-count="5">
+                  <button onClick="{{ l.pick }}" style="min-width:52px;height:52px;padding:0 12px;border-radius:12px;font:inherit;font-size:22px;cursor:pointer;color:var(--accent-ink);border:2px solid {{ l.bd }};background:var(--surface)">{{ l.glyph }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:15px;font-weight:500">طريقة الإدخال للمحكّم</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--fill)">
+                <sc-for list="{{ inputOpts }}" as="o" hint-placeholder-count="2">
+                  <button onClick="{{ o.pick }}" style="height:44px;border:0;border-radius:9px;font:inherit;font-size:15px;font-weight:500;cursor:pointer;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:15px;font-weight:500">ما يظهر في النتائج</span>
+              <sc-for list="{{ toggles }}" as="t" hint-placeholder-count="2">
+                <button onClick="{{ t.flip }}" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:17px;cursor:pointer">
+                  <span>{{ t.label }}</span>
+                  <span style="width:52px;height:32px;border-radius:16px;padding:3px;display:flex;justify-content:{{ t.justify }};background:{{ t.track }}"><span style="width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)"></span></span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </section>
+
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:24px">
+        <button onClick="{{ submit }}" disabled="{{ blocked }}" style="height:60px;border-radius:16px;border:0;font:inherit;font-size:18px;font-weight:700;cursor:pointer;background:{{ submitBg }};color:{{ submitFg }}">{{ submitLabel }}</button>
+        <sc-if value="{{ blocked }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:14px;color:var(--text2);text-align:center">باقي: {{ missingText }}</div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const QUICK = [5, 10, 15, 20];
+const ACCENT_NAMES = ['أخضر زيتي', 'طوبي', 'أزرق', 'ذهبي', 'بنفسجي', 'فحمي'];
+const LOGOS = [['', 'بدون'], ['●', '●'], ['■', '■'], ['◆', '◆'], ['▲', '▲']];
+let uid = 0;
+class Component extends DCLogic {
+  state = { ready: false };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() { this.detach && this.detach(); }
+  applyAccent() { if (this.root && this.f) this.root.style.setProperty('--accent', this.f.accent); }
+  P() { return this.props.params || (window.Muq ? Muq.params() : {}); }
+  set(patch) { Object.assign(this.f, patch); this.forceUpdate(); }
+  init(p) {
+    const src = p.edit || p.from;
+    const c = src && Muq.comp(src);
+    const crit = id => Muq.criteria(id).map(k => ({ id: 'n' + (++uid), name: k.name, emoji: k.emoji || '', max: k.maxPoints }));
+    const sel = {}; if (c) Muq.assignments(c.id).forEach(a => { sel[a.judgeId] = true; });
+    this.f = {
+      name: p.edit && c ? c.title : '', pin: p.edit && c ? c.adminPin : '',
+      crits: c ? crit(c.id) : [{ id: 'n' + (++uid), name: '', emoji: '', max: null }],
+      groupsText: p.edit && c ? Muq.groups(c.id).map(g => g.name).join('\n') : '',
+      sel, newJudge: '', custOpen: false,
+      accent: c ? c.accent : Muq.ACCENTS[0], logo: (c && c.logo) || '', inputStyle: c ? c.inputStyle : 'slider',
+      showBreakdown: c ? c.showBreakdown : true, showPerJudge: c ? c.showPerJudge : false
+    };
+  }
+  renderVals() {
+    const p = this.P();
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const base = { theme, rootRef: el => { this.root = el; this.applyAccent(); }, ready: false, heading: 'مسابقة جديدة', backHref: '#', f: {}, crits: [], judges: [] };
+    if (!this.state.ready) return base;
+    const key = (p.edit || '') + '|' + (p.from || '');
+    if (this.key !== key) { this.key = key; this.init(p); }
+    const f = this.f, editC = p.edit && Muq.comp(p.edit), fromC = p.from && Muq.comp(p.from);
+    const critLocked = !!(editC && Muq.hasScores(editC.id));
+    const crits = f.crits.map((k, i) => {
+      const upd = patch => { if (critLocked) return; Object.assign(k, patch); this.forceUpdate(); };
+      return {
+        name: k.name, emoji: k.emoji, maxText: k.max != null && !QUICK.includes(k.max) ? String(k.max) : '',
+        onName: e => upd({ name: e.target.value }), onEmoji: e => upd({ emoji: [...e.target.value].slice(-2).join('') }),
+        onMax: e => { const n = parseInt(e.target.value, 10); upd({ max: isNaN(n) ? null : Math.min(100, Math.max(1, n)) }); },
+        remove: () => { if (critLocked) return; this.set({ crits: f.crits.filter(x => x !== k) }); },
+        quick: QUICK.map(n => { const on = k.max === n; return { n, pick: () => upd({ max: n }), bg: on ? 'var(--text)' : 'var(--bg)', fg: on ? 'var(--bg)' : 'var(--text)', bd: on ? 'var(--text)' : 'var(--border)', fw: on ? 700 : 500 }; })
+      };
+    });
+    const sum = f.crits.reduce((s, k) => s + (k.max || 0), 0);
+    const groupNames = f.groupsText.split(/\n|،|,/).map(s => s.trim()).filter(Boolean);
+    const judges = Muq.db.judges.filter(j => j.id !== 'demo' && (!j.archived || f.sel[j.id])).map(j => {
+      const on = !!f.sel[j.id];
+      return { name: j.name, mark: on ? '✓' : '', bg: on ? 'var(--accent)' : 'transparent', bd: on ? 'var(--accent)' : 'var(--border)',
+        toggle: () => { f.sel[j.id] = !on; this.forceUpdate(); } };
+    });
+    const selCount = Object.values(f.sel).filter(Boolean).length;
+    const validCrits = f.crits.filter(k => k.name.trim() && k.max);
+    const missing = [];
+    if (!f.name.trim()) missing.push('الاسم');
+    if (!/^\d{4}$/.test(f.pin)) missing.push('الرقم السري');
+    if (!validCrits.length) missing.push('بند واحد على الأقل');
+    if (groupNames.length < 2) missing.push('مجموعتان على الأقل');
+    if (!selCount) missing.push('محكّم واحد على الأقل');
+    const ai = Math.max(0, Muq.ACCENTS.indexOf(f.accent));
+    const submit = () => {
+      if (missing.length) return;
+      if (editC) {
+        Muq.update(d => {
+          Object.assign(editC, { title: f.name.trim(), adminPin: f.pin, accent: f.accent, logo: f.logo || null, inputStyle: f.inputStyle, showBreakdown: f.showBreakdown, showPerJudge: f.showPerJudge });
+        });
+        return Muq.go('admin', { comp: editC.id });
+      }
+      const id = 'c' + Date.now();
+      Muq.update(d => {
+        d.competitions.push({ id, clubId: d.club.id, title: f.name.trim(), adminPin: f.pin, status: 'judging', accent: f.accent, logo: f.logo || null,
+          inputStyle: f.inputStyle, showBreakdown: f.showBreakdown, showPerJudge: f.showPerJudge, createdAt: new Date().toISOString().slice(0, 10) });
+        validCrits.forEach((k, i) => d.criteria.push({ id: id + 'k' + (i + 1), competitionId: id, order: i + 1, name: k.name.trim(), emoji: k.emoji || null, maxPoints: k.max }));
+        groupNames.forEach((n, i) => d.groups.push({ id: id + 'g' + (i + 1), competitionId: id, name: n }));
+        Object.keys(f.sel).filter(j => f.sel[j]).forEach(j => d.assignments.push({ competitionId: id, judgeId: j, token: Muq.newToken(), excludedGroupIds: [] }));
+      });
+      Muq.go('admin', { comp: id });
+    };
+    return {
+      ...base, ready: true, f,
+      heading: editC ? 'تعديل المسابقة' : 'مسابقة جديدة',
+      backHref: editC ? Muq.href('admin', { comp: editC.id }) : Muq.href('competitions', {}),
+      copiedFrom: fromC ? fromC.title : '',
+      onName: e => this.set({ name: e.target.value }),
+      onPin: e => this.set({ pin: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+      critLocked, critEditable: !critLocked, critEmpty: !critLocked && f.crits.every(k => !k.name.trim()),
+      crits, addCrit: () => this.set({ crits: [...f.crits, { id: 'n' + (++uid), name: '', emoji: '', max: null }] }), sum,
+      onGroups: e => this.set({ groupsText: e.target.value }), groupChips: groupNames,
+      groupCount: groupNames.length ? groupNames.length + (groupNames.length <= 10 && groupNames.length > 2 ? ' مجموعات' : ' مجموعة') : '',
+      judges, judgeCount: selCount ? selCount + ' مختار' : '',
+      onNewJudge: e => this.set({ newJudge: e.target.value }),
+      addJudge: () => {
+        const name = f.newJudge.trim(); if (!name) return;
+        const id = 'j' + Date.now();
+        Muq.update(d => d.judges.push({ id, clubId: d.club.id, name }));
+        f.sel[id] = true; this.set({ newJudge: '' });
+      },
+      custOpen: f.custOpen, custChevron: f.custOpen ? '⌃' : '⌄', toggleCust: () => this.set({ custOpen: !f.custOpen }),
+      custSummary: [ACCENT_NAMES[ai], f.inputStyle === 'slider' ? 'شريط' : 'أزرار', f.showBreakdown ? 'تظهر البنود' : 'بدون بنود'].join(' · '),
+      swatches: Muq.ACCENTS.map((c, i) => ({ color: c, label: ACCENT_NAMES[i], ring: c === f.accent ? 'var(--text)' : 'transparent', pick: () => this.set({ accent: c }) })),
+      logos: LOGOS.map(([v, g]) => ({ glyph: v ? g : 'بدون', bd: f.logo === v ? 'var(--text)' : 'var(--border)', pick: () => this.set({ logo: v }) })),
+      inputOpts: [['slider', 'شريط'], ['stepper', 'أزرار + / −']].map(([v, label]) => ({ label, pick: () => this.set({ inputStyle: v }), bg: f.inputStyle === v ? 'var(--surface)' : 'transparent', fg: f.inputStyle === v ? 'var(--text)' : 'var(--text2)' })),
+      toggles: [['showBreakdown', 'البنود'], ['showPerJudge', 'درجة كل محكّم']].map(([k, label]) => ({ label, flip: () => this.set({ [k]: !f[k] }),
+        justify: f[k] ? 'flex-end' : 'flex-start', track: f[k] ? 'var(--accent)' : 'var(--border)' })),
+      blocked: missing.length > 0, missingText: missing.join('، '),
+      submitLabel: editC ? 'احفظ التعديلات' : 'جاهزة، أرسل للمحكّمين',
+      submitBg: missing.length ? 'var(--fill)' : 'var(--accent)', submitFg: missing.length ? 'var(--none)' : '#fff', submit
+    };
+  }
+}
+</script>
+</body>
+</html>

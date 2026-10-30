@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--none:#7A766E;--warn:#EA7F66}
+[data-mq] *{box-sizing:border-box}
+[data-mq] input::placeholder{color:var(--none);letter-spacing:0}
+</style>
+</helmet>
+<div data-component="ClubLogin" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;padding:0 24px 32px;overflow-y:auto">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;min-height:300px">
+    <div style="font-size:84px;line-height:1;font-weight:700">المقيّم</div>
+    <div style="font-size:18px;color:var(--text2);line-height:1.6">تحكيم المسابقات من الجوال،<br>والترتيب يطلع لحاله.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <label style="display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:16px;font-weight:500">رمز النادي</span>
+      <input value="{{ code }}" onChange="{{ onCode }}" onKeyDown="{{ onKey }}" lang="en" dir="ltr" autocapitalize="characters" autocomplete="off" placeholder="مثلاً HAYY2026" style="height:60px;padding:0 16px;border-radius:14px;border:1px solid {{ bd }};background:var(--surface);color:var(--text);font:inherit;font-size:22px;font-weight:500;letter-spacing:4px;text-align:center;text-transform:uppercase">
+    </label>
+    <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}"><div style="font-size:15px;color:var(--warn)">الرمز غير صحيح، تأكد منه مع مسؤول النادي.</div></sc-if>
+    <button onClick="{{ submit }}" style="height:60px;border-radius:14px;border:0;background:var(--text);color:var(--bg);font:inherit;font-size:18px;font-weight:700;cursor:pointer">دخول</button>
+    <div style="font-size:14px;color:var(--text2);text-align:center;line-height:1.6">الجهاز يتذكرك، ما تحتاج تدخل كل مرة.</div>
+    <div style="font-size:13px;color:var(--none);text-align:center">للنموذج: HAYY2026</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false, code: '', error: false };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentWillUnmount() { this.detach && this.detach(); }
+  renderVals() {
+    const p = this.props.params || (window.Muq ? Muq.params() : {});
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const submit = () => {
+      if (!window.Muq || !Muq.db) return;
+      if (this.state.code.trim().toUpperCase() === Muq.db.club.clubCode) {
+        Muq.update(d => { d.ui = d.ui || {}; d.ui.clubIn = true; });
+        Muq.go('competitions', {});
+      } else this.setState({ error: true });
+    };
+    return {
+      theme, code: this.state.code, error: this.state.error, bd: this.state.error ? 'var(--warn)' : 'var(--border)',
+      onCode: e => this.setState({ code: e.target.value.toUpperCase(), error: false }),
+      onKey: e => { if (e.key === 'Enter') submit(); }, submit
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--ok:#2B7A4B;--part:#A0640F;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C;--desk:#E4E1DA;--accent-ink:var(--accent);--accent-soft:color-mix(in oklch,var(--accent) 12%,transparent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--ok:#62BE88;--part:#E3A64B;--none:#7A766E;--warn:#EA7F66;--desk:#050505;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff);--accent-soft:color-mix(in oklch,var(--accent) 26%,transparent)}
+[data-mq] *{box-sizing:border-box}
+[data-mq] a{color:inherit}
+[data-mq] a:hover{opacity:.82}
+</style>
+</helmet>
+<div data-component="Competitions" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden">
+  <div style="flex:1;overflow-y:auto">
+    <div style="max-width:1080px;margin:0 auto;padding:20px 20px 40px;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;min-height:40px">
+        <span style="font-size:16px;font-weight:700">المقيّم</span>
+        <span style="font-size:14px;color:var(--text2)">{{ clubName }}</span>
+      </div>
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="height:44px;width:50%;border-radius:8px;background:var(--fill)"></div>
+          <div style="height:120px;border-radius:16px;background:var(--fill)"></div>
+          <div style="height:120px;border-radius:16px;background:var(--fill)"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+        <h1 style="margin:0;font-size:40px;line-height:1.1;font-weight:700">المسابقات</h1>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;max-width:560px">
+          <a href="{{ newHref }}" style="display:flex;align-items:center;justify-content:center;height:56px;border-radius:14px;background:var(--text);color:var(--bg);text-decoration:none;font-size:17px;font-weight:700">مسابقة جديدة</a>
+          <button onClick="{{ openCopy }}" style="height:56px;border-radius:14px;border:1px solid var(--text);background:transparent;color:var(--text);font:inherit;font-size:16px;font-weight:500;cursor:pointer">انسخ من مسابقة سابقة</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">
+          <sc-for list="{{ comps }}" as="c" hint-placeholder-count="2">
+            <button onClick="{{ c.open }}" style="display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:18px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;text-align:right;cursor:pointer">
+              <div style="display:flex;align-items:center;gap:10px;width:100%">
+                <span style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;background:{{ c.accent }}">{{ c.logo }}</span>
+                <span style="flex:1"></span>
+                <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:99px;font-size:14px;font-weight:500;background:var(--fill)"><span style="width:8px;height:8px;border-radius:50%;background:{{ c.statusColor }}"></span>{{ c.status }}</span>
+              </div>
+              <div style="font-size:22px;font-weight:700">{{ c.title }}</div>
+              <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px;color:var(--text2);width:100%"><span>{{ c.meta }}</span><span>{{ c.date }}</span></div>
+            </button>
+          </sc-for>
+        </div>
+        <a href="{{ judgesHref }}" style="align-self:flex-start;display:flex;align-items:center;min-height:48px;font-size:15px;font-weight:500;color:var(--text2)">المحكّمون المحفوظون ({{ judgeCount }})</a>
+      </sc-if>
+      <sc-if value="{{ isJudges }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px">
+          <a href="{{ listHref }}" aria-label="رجوع" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;border-radius:12px;margin-right:-12px">→</a>
+          <h1 style="margin:0;font-size:30px;font-weight:700">المحكّمون المحفوظون</h1>
+        </div>
+        <div style="font-size:15px;color:var(--text2);line-height:1.6;margin-top:-12px">قائمة النادي. تختار منها عند إنشاء أي مسابقة.</div>
+        <div style="display:flex;flex-direction:column;border:1px solid var(--border);border-radius:16px;background:var(--surface);max-width:560px">
+          <sc-for list="{{ saved }}" as="j" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:10px;min-height:56px;padding:0 8px 0 16px;border-bottom:1px solid var(--border)">
+              <span style="flex:1;font-size:17px;font-weight:500">{{ j.name }}</span>
+              <span style="font-size:14px;color:var(--text2)">{{ j.uses }}</span>
+              <button onClick="{{ j.remove }}" style="height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:var(--warn);font:inherit;font-size:15px;cursor:pointer">إزالة</button>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;max-width:560px">
+          <input value="{{ newName }}" onChange="{{ onNewName }}" placeholder="اسم محكّم جديد" style="flex:1;min-width:0;height:52px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:17px">
+          <button onClick="{{ addJudge }}" style="height:52px;padding:0 18px;border-radius:12px;border:0;background:var(--text);color:var(--bg);font:inherit;font-size:16px;font-weight:700;cursor:pointer">أضف</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ close }}" style="position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:10"></div>
+    <div style="position:absolute;right:0;left:0;bottom:0;z-index:11;display:flex;justify-content:center">
+      <div style="width:100%;max-width:480px;background:var(--surface);border-radius:22px 22px 0 0;padding:22px 20px 26px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="flex:1;font-size:20px;font-weight:700">{{ sheetTitle }}</div>
+          <button onClick="{{ close }}" aria-label="إغلاق" style="width:44px;height:44px;border-radius:12px;border:0;background:var(--fill);color:var(--text);font:inherit;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <sc-if value="{{ isPin }}" hint-placeholder-val="{{ false }}">
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:16px">الرقم السري لمدير المسابقة</span>
+            <input value="{{ pin }}" onChange="{{ onPin }}" onKeyDown="{{ onPinKey }}" inputmode="numeric" lang="en" dir="ltr" maxlength="4" autofocus="{{ true }}" style="height:64px;border-radius:14px;border:1px solid {{ pinBd }};background:var(--bg);color:var(--text);font:inherit;font-size:30px;letter-spacing:14px;text-align:center">
+          </label>
+          <sc-if value="{{ pinError }}" hint-placeholder-val="{{ false }}"><div style="font-size:15px;color:var(--warn)">الرقم غير صحيح</div></sc-if>
+          <button onClick="{{ submitPin }}" style="height:56px;border-radius:14px;border:0;background:var(--text);color:var(--bg);font:inherit;font-size:17px;font-weight:700;cursor:pointer">افتح</button>
+          <div style="font-size:13px;color:var(--none);text-align:center">للنموذج: {{ pinHint }}</div>
+        </sc-if>
+        <sc-if value="{{ isCopy }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:15px;color:var(--text2);line-height:1.6">ننسخ البنود والمحكّمين والتخصيص، والمجموعات تبدأ فاضية.</div>
+          <div style="display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px">
+            <sc-for list="{{ comps }}" as="c" hint-placeholder-count="2">
+              <a href="{{ c.copyHref }}" style="display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:0 16px;border-bottom:1px solid var(--border);text-decoration:none;font-size:17px;font-weight:500"><span>{{ c.title }}</span><span style="font-size:14px;color:var(--text2)">{{ c.critCount }}</span></a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false, sheet: null, cid: null, pin: '', pinError: false, newName: '' };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentWillUnmount() { this.detach && this.detach(); }
+  P() { return this.props.params || (window.Muq ? Muq.params() : {}); }
+  renderVals() {
+    const p = this.P();
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const base = { theme, loading: true, isList: false, isJudges: false, comps: [], saved: [], clubName: '', sheetOpen: false };
+    if (!this.state.ready || p.state === 'loading') return base;
+    const S = this.state, db = Muq.db;
+    const pl = (n, few, many) => n + ' ' + (n >= 3 && n <= 10 ? few : many);
+    const COLORS = { draft: 'var(--none)', judging: 'var(--ok)', locked: 'var(--text)', revealed: 'var(--accent)' };
+    const comps = db.competitions.filter(c => !c.demo).slice().sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || '')).map(c => ({
+      title: c.title, status: Muq.STATUS[c.status], statusColor: COLORS[c.status], accent: c.accent, logo: c.logo || c.title.replace('مسابقة ', '').slice(0, 1),
+      meta: pl(Muq.groups(c.id).length, 'مجموعات', 'مجموعة') + ' · ' + pl(Muq.assignments(c.id).length, 'محكّمين', 'محكّم'),
+      date: Muq.date(c.createdAt), critCount: pl(Muq.criteria(c.id).length, 'بنود', 'بند'),
+      copyHref: Muq.href('create', { from: c.id, device: '' }),
+      open: () => this.setState({ sheet: 'pin', cid: c.id, pin: '', pinError: false })
+    }));
+    const comp = S.cid && Muq.comp(S.cid);
+    const submitPin = () => {
+      if (comp && S.pin === comp.adminPin) { this.setState({ sheet: null }); Muq.go('admin', { comp: comp.id }); }
+      else this.setState({ pinError: true });
+    };
+    const judges = db.judges.filter(j => j.id !== 'demo' && !j.archived);
+    return {
+      ...base, loading: false, clubName: db.club.name,
+      isList: p.view !== 'judges', isJudges: p.view === 'judges',
+      newHref: Muq.href('create', { device: '' }), judgesHref: Muq.href('competitions', { view: 'judges' }), listHref: Muq.href('competitions', {}),
+      comps, judgeCount: judges.length,
+      saved: judges.map(j => {
+        const n = db.assignments.filter(a => a.judgeId === j.id && !a.removed).length;
+        return { name: j.name, uses: n ? pl(n, 'مسابقات', 'مسابقة') : '', remove: () => Muq.update(() => { j.archived = true; }) };
+      }),
+      newName: S.newName, onNewName: e => this.setState({ newName: e.target.value }),
+      addJudge: () => { const name = S.newName.trim(); if (!name) return; Muq.update(d => d.judges.push({ id: 'j' + Date.now(), clubId: d.club.id, name })); this.setState({ newName: '' }); },
+      openCopy: () => this.setState({ sheet: 'copy' }),
+      sheetOpen: !!S.sheet, isPin: S.sheet === 'pin', isCopy: S.sheet === 'copy',
+      sheetTitle: S.sheet === 'pin' && comp ? comp.title : 'انسخ من مسابقة سابقة',
+      close: () => this.setState({ sheet: null }),
+      pin: S.pin, pinError: S.pinError, pinBd: S.pinError ? 'var(--warn)' : 'var(--border)', pinHint: comp ? comp.adminPin : '',
+      onPin: e => this.setState({ pin: e.target.value.replace(/\D/g, '').slice(0, 4), pinError: false }),
+      onPinKey: e => { if (e.key === 'Enter') submitPin(); }, submitPin
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>المقيّم — النموذج التفاعلي</title>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--ok:#2B7A4B;--part:#A0640F;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C;--desk:#E4E1DA;--accent-ink:var(--accent);--accent-soft:color-mix(in oklch,var(--accent) 12%,transparent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--ok:#62BE88;--part:#E3A64B;--none:#7A766E;--warn:#EA7F66;--desk:#050505;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff);--accent-soft:color-mix(in oklch,var(--accent) 26%,transparent)}
+[data-mq] *{box-sizing:border-box}
+[data-mq] a{color:inherit}
+[data-mq] a:hover{opacity:.82}
+</style>
+</helmet>
+<div dir="rtl" lang="ar" data-mq="{{ deskTheme }}" style="min-height:100vh;background:var(--desk);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif">
+  <sc-if value="{{ isIndex }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:1120px;margin:0 auto;padding:56px 32px 96px;display:flex;flex-direction:column;gap:32px">
+      <header style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:2px solid var(--text);padding-bottom:28px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:15px;font-weight:500;color:var(--text2)">نموذج تفاعلي · فهرس الشاشات والحالات</div>
+          <h1 style="margin:0;font-size:96px;line-height:.95;font-weight:700">المقيّم</h1>
+          <div style="font-size:17px;color:var(--text2);max-width:520px;text-wrap:pretty">مرتّبة حسب الأولوية. كل رابط يفتح الشاشة بحالتها عبر الـ hash، والبيانات تتشارك بين الشاشات: درجة يدخلها المحكّم تظهر فوراً في لوحة المدير.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+          <div style="font-size:13px;color:var(--text2);font-weight:500">افتح الروابط بالوضع</div>
+          <div style="display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:12px">
+            <sc-for list="{{ linkThemes }}" as="lt" hint-placeholder-count="3">
+              <button onClick="{{ lt.pick }}" style="height:40px;padding:0 16px;border:0;border-radius:8px;font:inherit;font-size:15px;font-weight:500;cursor:pointer;background:{{ lt.bg }};color:{{ lt.fg }}">{{ lt.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </header>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ screens }}" as="s" hint-placeholder-count="10">
+          <div style="display:grid;grid-template-columns:56px minmax(0,1fr);gap:20px;padding:22px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:40px;font-weight:700;line-height:1;color:var(--text2)">{{ s.L }}</div>
+            <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+              <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px">
+                <a href="{{ s.href }}" style="font-size:24px;font-weight:700;text-decoration:none">{{ s.name }}</a>
+                <span style="font-size:14px;color:var(--text2)">«{{ s.cmp }}»</span>
+                <span style="font-size:13px;color:var(--text2);border:1px solid var(--border);border-radius:99px;padding:2px 10px">{{ s.devLabel }}</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ s.states }}" as="st" hint-placeholder-count="3">
+                  <a href="{{ st.href }}" style="display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:10px;background:var(--surface);border:1px solid var(--border);text-decoration:none;font-size:15px;font-weight:500">{{ st.label }}</a>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <footer style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;padding-top:8px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;font-weight:700;color:var(--text2)">رموز التجربة</div>
+          <div style="font-size:15px;line-height:1.8">رمز النادي <b dir="ltr">HAYY2026</b><br>رقم مدير «مسابقة الطبخ» <b>4821</b><br>رقم مدير «مسابقة الإلقاء» <b>7310</b></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;font-weight:700;color:var(--text2)">للمطوّر</div>
+          <div style="font-size:15px;line-height:1.8">البيانات من <span dir="ltr">data/sample-data.json</span>، والمنطق في <span dir="ltr">lib/muqayyim.js</span>.<br><a href="HANDOFF.md">HANDOFF.md</a></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+          <div style="font-size:13px;font-weight:700;color:var(--text2)">التعديلات تُحفظ في المتصفح</div>
+          <button onClick="{{ resetData }}" style="height:44px;padding:0 18px;border-radius:10px;border:1px solid var(--text);background:transparent;color:var(--text);font:inherit;font-size:15px;font-weight:500;cursor:pointer">{{ resetLabel }}</button>
+        </div>
+      </footer>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isScreen }}" hint-placeholder-val="{{ false }}">
+    <div style="height:60px;display:flex;align-items:center;gap:16px;padding:0 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:nowrap;overflow-x:auto">
+      <a href="#" style="display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:8px;text-decoration:none;font-size:15px;font-weight:500;flex-shrink:0">→ الفهرس</a>
+      <div style="display:flex;align-items:baseline;gap:10px;flex-shrink:0;white-space:nowrap">
+        <span style="font-size:18px;font-weight:700">{{ cur.L }} · {{ cur.name }}</span>
+        <span style="font-size:13px;color:var(--text2)">«{{ cur.cmp }}»</span>
+      </div>
+      <div style="flex:1"></div>
+      <sc-for list="{{ toolbarGroups }}" as="tg" hint-placeholder-count="1">
+        <div style="display:flex;gap:2px;padding:3px;background:var(--fill);border-radius:10px;flex-shrink:0">
+          <sc-for list="{{ tg.items }}" as="ti" hint-placeholder-count="2">
+            <a href="{{ ti.href }}" style="display:flex;align-items:center;height:34px;padding:0 12px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap;background:{{ ti.bg }};color:{{ ti.fg }}">{{ ti.label }}</a>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:28px;justify-content:center;align-items:flex-start;padding:20px 24px 32px">
+      <sc-for list="{{ frames }}" as="f" hint-placeholder-count="1">
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:center">
+          <div style="font-size:13px;font-weight:500;color:var(--text2);height:18px">{{ f.label }}</div>
+          <div style="position:relative;overflow:hidden;width:{{ f.ow }}px;height:{{ f.oh }}px;border-radius:{{ f.radius }}px;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 20px 50px -20px rgba(0,0,0,.35);background:#000">
+            <div data-mq="{{ f.theme }}" style="position:absolute;top:0;right:0;transform-origin:top right;width:{{ f.w }}px;height:{{ f.h }}px;transform:scale({{ f.scale }});background:var(--bg)">
+              <sc-if value="{{ f.is.judgeScore }}"><dc-import name="JudgeScore" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.judgeHome }}"><dc-import name="JudgeHome" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.admin }}"><dc-import name="AdminDashboard" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.reveal }}"><dc-import name="RevealStage" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.create }}"><dc-import name="CreateCompetition" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.results }}"><dc-import name="AdminResults" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.competitions }}"><dc-import name="Competitions" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.login }}"><dc-import name="ClubLogin" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.public }}"><dc-import name="PublicResults" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+              <sc-if value="{{ f.is.shareCard }}"><dc-import name="ShareCard" params="{{ f.params }}" theme="{{ f.theme }}" hint-size="100%,100%"></dc-import></sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SCREENS = [
+  { key: 'judge-score', L: 'F', name: 'المحكّم: تقييم مجموعة', cmp: 'JudgeScore', flag: 'judgeScore', dev: ['phone'], states: [
+    ['شريط سحب', { t: 'Rt4vW8zN1c', g: 'c1g1', input: 'slider' }], ['أزرار أرقام', { t: 'Rt4vW8zN1c', g: 'c1g1', input: 'stepper' }],
+    ['الشكلان للمقارنة', { t: 'Rt4vW8zN1c', g: 'c1g5', compare: '1' }], ['مجموعة لم تُقيَّم', { t: 'Rt4vW8zN1c', g: 'c1g5' }],
+    ['جارٍ الحفظ…', { t: 'Rt4vW8zN1c', g: 'c1g1', save: 'saving' }], ['بدون إنترنت', { t: 'Rt4vW8zN1c', g: 'c1g1', net: 'offline' }],
+    ['بعد القفل (قراءة فقط)', { t: 'Rt4vW8zN1c', g: 'c1g1', status: 'locked' }], ['تحميل', { state: 'loading' }]] },
+  { key: 'judge-home', L: 'E', name: 'المحكّم: الترحيب والقائمة', cmp: 'JudgeHome', flag: 'judgeHome', dev: ['phone'], states: [
+    ['سعد · قيّم جزءاً', { t: 'Rt4vW8zN1c' }], ['أحمد · خلّص', { t: 'k7Qx9mP2aL' }], ['فهد · لم يبدأ', { t: 'p2YhB6sD0e' }],
+    ['خالد · مستثنى من مجموعة', { t: 'Mz5qF3uJ9w' }], ['رابط معطّل', { t: 'expired00' }], ['بعد القفل', { t: 'Rt4vW8zN1c', status: 'locked' }],
+    ['بدون إنترنت', { t: 'Rt4vW8zN1c', net: 'offline' }], ['تحميل', { t: 'Rt4vW8zN1c', state: 'loading' }]] },
+  { key: 'admin', L: 'D', name: 'لوحة المدير', cmp: 'AdminDashboard', flag: 'admin', dev: ['phone', 'laptop'], states: [
+    ['تحكيم جارٍ', { comp: 'c1' }], ['على اللابتوب', { comp: 'c1', device: 'laptop' }], ['مسودة', { comp: 'c1', status: 'draft' }],
+    ['مقفلة', { comp: 'c1', status: 'locked' }], ['أُعلنت', { comp: 'c2' }], ['تحميل', { comp: 'c1', state: 'loading' }]] },
+  { key: 'reveal', L: 'H', name: 'شاشة الإعلان', cmp: 'RevealStage', flag: 'reveal', dev: ['projector'], states: [
+    ['الإلقاء · فيها تعادل', { comp: 'c2', step: '0' }], ['الطبخ', { comp: 'c1', step: '0' }], ['المنصة النهائية', { comp: 'c2', step: 'end' }]] },
+  { key: 'create', L: 'C', name: 'إنشاء مسابقة', cmp: 'CreateCompetition', flag: 'create', dev: ['phone'], states: [
+    ['جديدة فارغة', {}], ['منسوخة من «الإلقاء»', { from: 'c2' }], ['تعديل بعد بدء التحكيم', { edit: 'c1' }]] },
+  { key: 'results', L: 'G', name: 'النتائج للمدير', cmp: 'AdminResults', flag: 'results', dev: ['laptop', 'phone'], states: [
+    ['الطبخ · فيها نقص', { comp: 'c1' }], ['تبويب البنود', { comp: 'c1', tab: 'criteria' }], ['تبويب المحكّمون', { comp: 'c1', tab: 'judges' }],
+    ['الإلقاء · أُعلنت', { comp: 'c2' }], ['على الجوال', { comp: 'c1', device: 'phone' }], ['بلا أي تقييم', { comp: 'c1', state: 'empty' }]] },
+  { key: 'competitions', L: 'B', name: 'مسابقات النادي', cmp: 'Competitions', flag: 'competitions', dev: ['phone', 'laptop'], states: [
+    ['القائمة', {}], ['على اللابتوب', { device: 'laptop' }], ['المحكّمون المحفوظون', { view: 'judges' }]] },
+  { key: 'login', L: 'A', name: 'دخول النادي', cmp: 'ClubLogin', flag: 'login', dev: ['phone'], states: [['الدخول', {}]] },
+  { key: 'public', L: 'I', name: 'صفحة النتائج العامة', cmp: 'PublicResults', flag: 'public', dev: ['phone'], states: [
+    ['بعد الإعلان', { comp: 'c2' }], ['قبل الإعلان', { comp: 'c1' }]] },
+  { key: 'share-card', L: 'J', name: 'بطاقة الواتساب', cmp: 'ShareCard', flag: 'shareCard', dev: ['card'], states: [
+    ['الإلقاء', { comp: 'c2' }], ['الطبخ', { comp: 'c1' }]] }
+];
+const DEV = { phone: [390, 844, 44], laptop: [1440, 900, 12], projector: [1920, 1080, 6], card: [1080, 1350, 6] };
+const DEV_LABEL = { phone: 'جوال 390', laptop: 'لابتوب 1440', projector: 'بروجكتر 1920', card: 'صورة 1080×1350' };
+
+function parse() {
+  const p = {};
+  (location.hash.slice(1) || '').split('&').forEach(kv => {
+    if (!kv) return; const i = kv.indexOf('=');
+    p[decodeURIComponent(i < 0 ? kv : kv.slice(0, i))] = i < 0 ? '' : decodeURIComponent(kv.slice(i + 1));
+  });
+  return p;
+}
+function hash(p) {
+  return '#' + Object.keys(p).filter(k => p[k] != null && p[k] !== '').map(k => k + '=' + encodeURIComponent(p[k])).join('&');
+}
+
+class Component extends DCLogic {
+  state = { linkTheme: 'light', resetDone: false };
+  componentDidMount() {
+    this.onR = () => this.forceUpdate();
+    window.addEventListener('resize', this.onR);
+    window.addEventListener('hashchange', this.onR);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onR);
+    window.removeEventListener('hashchange', this.onR);
+  }
+  renderVals() {
+    const p = parse();
+    const cur = SCREENS.find(s => s.key === p.screen);
+    const lt = this.state.linkTheme;
+    const screens = SCREENS.map(s => ({
+      L: s.L, name: s.name, cmp: s.cmp,
+      devLabel: s.dev.map(d => DEV_LABEL[d]).join(' · '),
+      href: hash({ screen: s.key, theme: lt, ...s.states[0][1] }),
+      states: s.states.map(([label, extra]) => ({ label, href: hash({ screen: s.key, theme: lt, ...extra }) }))
+    }));
+    const linkThemes = [['light', 'فاتح'], ['dark', 'داكن'], ['both', 'الاثنان معاً']].map(([v, label]) => ({
+      label, bg: lt === v ? 'var(--text)' : 'transparent', fg: lt === v ? 'var(--bg)' : 'var(--text)',
+      pick: () => this.setState({ linkTheme: v })
+    }));
+    const base = {
+      isIndex: !cur, isScreen: !!cur, screens, linkThemes,
+      deskTheme: cur ? (p.theme === 'dark' ? 'dark' : 'light') : (lt === 'dark' ? 'dark' : 'light'),
+      resetLabel: this.state.resetDone ? '✓ رجعت البيانات التجريبية' : 'أعد البيانات التجريبية',
+      resetData: async () => { if (window.Muq) { await Muq.reset(); this.setState({ resetDone: true }); setTimeout(() => this.setState({ resetDone: false }), 2000); } },
+      cur: cur || { L: '', name: '', cmp: '' }, toolbarGroups: [], frames: []
+    };
+    if (!cur) return base;
+
+    const seg = (key, opts) => ({ items: opts.map(([v, label]) => {
+      const active = (p[key] || opts[0][0]) === v;
+      return { label, href: hash({ ...p, [key]: v === opts[0][0] && key !== 'theme' ? '' : v }),
+        bg: active ? 'var(--surface)' : 'transparent', fg: active ? 'var(--text)' : 'var(--text2)' };
+    }) });
+    const groups = [];
+    if (cur.key === 'judge-score') {
+      const mode = p.compare ? 'compare' : (p.input || 'slider');
+      groups.push({ items: [['slider', 'شريط'], ['stepper', 'أزرار'], ['compare', 'مقارنة']].map(([v, label]) => ({
+        label, href: hash({ ...p, input: v === 'compare' ? '' : v, compare: v === 'compare' ? '1' : '' }),
+        bg: mode === v ? 'var(--surface)' : 'transparent', fg: mode === v ? 'var(--text)' : 'var(--text2)' })) });
+    }
+    if (cur.dev.length > 1) groups.push(seg('device', cur.dev.map(d => [d, d === 'phone' ? 'جوال' : 'لابتوب'])));
+    if (cur.key !== 'reveal') groups.push(seg('theme', [['light', 'فاتح'], ['dark', 'داكن'], ['both', 'الاثنان']]));
+
+    const device = cur.dev.includes(p.device) ? p.device : cur.dev[0];
+    const [w, h, rad] = DEV[device];
+    let themes = cur.key === 'reveal' ? ['dark'] : p.theme === 'both' ? ['light', 'dark'] : [p.theme === 'dark' ? 'dark' : 'light'];
+    let inputs = cur.key === 'judge-score' && p.compare ? ['slider', 'stepper'] : [null];
+    const combos = [];
+    inputs.forEach(inp => themes.forEach(th => combos.push({ inp, th })));
+    const n = combos.length;
+    const availW = (window.innerWidth - 48 - 28 * (n - 1)) / n;
+    const availH = window.innerHeight - 60 - 52 - 28;
+    const scale = Math.min(1, availW / w, Math.max(availH, 360) / h);
+    const frames = combos.map(({ inp, th }, i) => {
+      const is = {}; SCREENS.forEach(s => { is[s.flag] = s.key === cur.key; });
+      const label = [inp === 'slider' ? 'شريط سحب' : inp === 'stepper' ? 'أزرار أرقام' : '', themes.length > 1 || inp ? (th === 'dark' ? 'داكن' : 'فاتح') : '', '\u2066' + w + '×' + h + '\u2069']
+        .filter(Boolean).join(' · ');
+      return { key: i, theme: th, params: inp ? { ...p, input: inp } : p, w, h, scale,
+        ow: Math.round(w * scale), oh: Math.round(h * scale), radius: Math.round(rad * scale), label, is };
+    });
+    return { ...base, toolbarGroups: groups, frames };
+  }
+}
+</script>
+</body>
+</html>

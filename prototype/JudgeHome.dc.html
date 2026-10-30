@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--ok:#2B7A4B;--part:#A0640F;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C;--desk:#E4E1DA;--accent-ink:var(--accent);--accent-soft:color-mix(in oklch,var(--accent) 12%,transparent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--ok:#62BE88;--part:#E3A64B;--none:#7A766E;--warn:#EA7F66;--desk:#050505;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff);--accent-soft:color-mix(in oklch,var(--accent) 26%,transparent)}
+[data-mq] *{box-sizing:border-box}
+[data-mq] a{color:inherit}
+[data-mq] a:hover{opacity:.82}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-component="JudgeHome" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow-y:auto">
+  <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:8px 16px;background:var(--fill);font-size:14px;font-weight:500;text-align:center">بدون إنترنت · درجاتك محفوظة على جوالك</div>
+  </sc-if>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 0">
+    <span style="font-size:16px;font-weight:700">المقيّم</span>
+    <span style="font-size:14px;color:var(--text2)">{{ clubName }}</span>
+  </div>
+  <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:12px;padding:28px 20px">
+      <div style="height:40px;width:60%;border-radius:8px;background:var(--fill)"></div>
+      <div style="height:22px;width:40%;border-radius:6px;background:var(--fill)"></div>
+      <div style="height:64px;border-radius:12px;background:var(--fill);margin-top:12px"></div>
+      <div style="height:64px;border-radius:12px;background:var(--fill)"></div>
+      <div style="height:64px;border-radius:12px;background:var(--fill)"></div>
+      <div style="height:64px;border-radius:12px;background:var(--fill)"></div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ dead }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:32px 24px 120px">
+      <div style="font-size:28px;font-weight:700;line-height:1.3">هذا الرابط لم يعد يعمل</div>
+      <div style="font-size:17px;color:var(--text2);line-height:1.6">اطلب رابطاً جديداً من مدير المسابقة.</div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:6px;padding:28px 20px 20px">
+      <sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}">
+        <h1 style="margin:0;font-size:30px;line-height:1.25;font-weight:700">انتهى التحكيم، شكراً لك 🙏</h1>
+      </sc-if>
+      <sc-if value="{{ open }}" hint-placeholder-val="{{ true }}">
+        <h1 style="margin:0;font-size:32px;line-height:1.25;font-weight:700">هلا {{ judgeName }} 👋</h1>
+      </sc-if>
+      <div style="font-size:20px;font-weight:500;color:var(--accent-ink)">{{ compTitle }}</div>
+    </div>
+    <div style="padding:0 20px 18px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span style="font-size:17px;font-weight:500">قيّمت {{ done }} من {{ total }}</span>
+        <sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:var(--text2)">للقراءة فقط</span></sc-if>
+      </div>
+      <div style="height:8px;border-radius:4px;background:var(--fill);overflow:hidden">
+        <div style="height:100%;border-radius:4px;background:var(--accent);width:{{ pct }}"></div>
+      </div>
+    </div>
+    <sc-if value="{{ showDone }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:0 20px 18px;padding:14px 16px;border-radius:14px;background:var(--accent-soft);font-size:17px;line-height:1.5"><b>✓ خلّصت!</b> تقدر تعدّل حتى يقفل المدير التحكيم.</div>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;border-top:1px solid var(--border);background:var(--surface)">
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+        <a href="{{ r.href }}" style="display:flex;align-items:center;gap:14px;min-height:72px;padding:12px 20px;border-bottom:1px solid var(--border);text-decoration:none">
+          <span style="width:30px;height:30px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;background:{{ r.dotBg }};color:{{ r.dotFg }};border:2px solid {{ r.dotBd }}">{{ r.dot }}</span>
+          <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+            <span style="font-size:18px;font-weight:500">{{ r.name }}</span>
+            <span style="font-size:15px;color:var(--text2)">{{ r.sub }}</span>
+          </span>
+          <span style="font-size:20px;color:var(--text2)">←</span>
+        </a>
+      </sc-for>
+    </div>
+    <div style="padding:18px 20px 28px;font-size:14px;color:var(--text2);line-height:1.6">كل درجة تنحفظ لحظة ما تدخلها، وما فيه زر إرسال.</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() { this.detach && this.detach(); }
+  applyAccent() { if (this.root && this.accent) this.root.style.setProperty('--accent', this.accent); }
+  P() { return this.props.params || (window.Muq ? Muq.params() : {}); }
+  renderVals() {
+    const p = this.P();
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const base = { theme, rootRef: el => { this.root = el; this.applyAccent(); }, loading: true, dead: false, ready: false, rows: [], clubName: '', offline: p.net === 'offline' };
+    if (!this.state.ready || p.state === 'loading') return base;
+    base.clubName = Muq.db.club.name;
+    const a = Muq.byToken(p.t || 'Rt4vW8zN1c');
+    if (!a) return { ...base, loading: false, dead: true };
+    const cid = a.competitionId, comp = Muq.comp(cid);
+    this.accent = comp.accent;
+    const status = Muq.status(comp, p);
+    const locked = status === 'locked' || status === 'revealed';
+    const pr = Muq.progress(cid, a.judgeId);
+    const max = Muq.maxTotal(cid);
+    const rows = pr.rows.map(r => ({
+      name: r.group.name,
+      href: Muq.href('judge-score', { t: a.token, g: r.group.id, net: p.net, status: p.status }),
+      sub: r.complete ? r.total + ' من ' + max : r.started ? 'ناقصة · ' + r.filled + ' من ' + r.count + ' بنود' : 'لم تُقيَّم بعد',
+      dot: r.complete ? '✓' : r.started ? '◐' : '',
+      dotBg: r.complete ? 'var(--accent)' : 'transparent',
+      dotFg: r.complete ? '#fff' : 'var(--part)',
+      dotBd: r.complete ? 'var(--accent)' : r.started ? 'var(--part)' : 'var(--border)'
+    }));
+    return { ...base, loading: false, ready: true, locked, open: !locked,
+      judgeName: Muq.judge(a.judgeId).name, compTitle: comp.title,
+      done: pr.done, total: pr.total, pct: (pr.total ? pr.done / pr.total * 100 : 0) + '%',
+      showDone: !locked && pr.status === 'done', rows };
+  }
+}
+</script>
+</body>
+</html>

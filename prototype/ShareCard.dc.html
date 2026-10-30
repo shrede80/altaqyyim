@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--accent:#1F6F5C;--accent-ink:var(--accent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff)}
+[data-mq] *{box-sizing:border-box}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-component="ShareCard" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;top:0;right:0;width:1080px;height:1350px;display:flex;flex-direction:column;padding:96px 96px 72px;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden">
+  <div style="display:flex;justify-content:space-between;font-size:30px;color:var(--text2)"><span>{{ clubName }}</span><span>{{ date }}</span></div>
+  <div style="margin-top:28px;font-size:104px;line-height:1.08;font-weight:700;color:var(--accent-ink);text-wrap:balance">{{ title }}</div>
+  <div style="margin-top:64px;display:flex;flex-direction:column;border-top:3px solid var(--text)">
+    <sc-for list="{{ top }}" as="r" hint-placeholder-count="3">
+      <div style="display:flex;align-items:center;gap:40px;padding:30px 0;border-bottom:1px solid var(--border)">
+        <span style="width:110px;font-size:120px;line-height:1;font-weight:700;color:{{ r.rankColor }}">{{ r.rank }}</span>
+        <span style="flex:1;font-size:80px;line-height:1.1;font-weight:700">{{ r.name }}</span>
+        <span dir="ltr" style="font-size:48px;font-weight:500;color:var(--text2)">{{ r.avg }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display:flex;flex-direction:column;margin-top:12px">
+    <sc-for list="{{ rest }}" as="r" hint-placeholder-count="2">
+      <div style="display:flex;align-items:baseline;gap:40px;padding:14px 0">
+        <span style="width:110px;font-size:40px;font-weight:700;color:var(--text2)">{{ r.rank }}</span>
+        <span style="flex:1;font-size:40px;font-weight:500">{{ r.name }}</span>
+        <span dir="ltr" style="font-size:34px;color:var(--text2)">{{ r.avg }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="margin-top:auto;font-size:28px;font-weight:700;color:var(--text2)">المقيّم</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() { this.detach && this.detach(); }
+  applyAccent() { if (this.root && this.accent) this.root.style.setProperty('--accent', this.accent); }
+  renderVals() {
+    const p = this.props.params || (window.Muq ? Muq.params() : {});
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const base = { theme, rootRef: el => { this.root = el; this.applyAccent(); }, top: [], rest: [] };
+    if (!this.state.ready) return base;
+    const cid = p.comp || 'c2', comp = Muq.comp(cid) || Muq.db.competitions[0];
+    this.accent = comp.accent;
+    const R = Muq.results(cid);
+    const map = r => ({ rank: r.rank, name: r.group.name, avg: Muq.fmt(r.avg), rankColor: r.rank === 1 ? 'var(--accent-ink)' : 'var(--text)' });
+    return { ...base, clubName: Muq.db.club.name, date: Muq.date(comp.createdAt), title: comp.title,
+      top: R.rows.filter(r => r.rank <= 3).map(map), rest: R.rows.filter(r => r.rank > 3).map(map) };
+  }
+}
+</script>
+</body>
+</html>

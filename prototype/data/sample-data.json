@@ -1,0 +1,1321 @@
+{
+ "club": {
+  "id": "club1",
+  "name": "نادي الحي الشبابي",
+  "clubCode": "HAYY2026"
+ },
+ "judges": [
+  {
+   "id": "j1",
+   "clubId": "club1",
+   "name": "أحمد"
+  },
+  {
+   "id": "j2",
+   "clubId": "club1",
+   "name": "سعد"
+  },
+  {
+   "id": "j3",
+   "clubId": "club1",
+   "name": "فهد"
+  },
+  {
+   "id": "j4",
+   "clubId": "club1",
+   "name": "خالد"
+  },
+  {
+   "id": "j5",
+   "clubId": "club1",
+   "name": "عبدالله"
+  }
+ ],
+ "competitions": [
+  {
+   "id": "c1",
+   "clubId": "club1",
+   "title": "مسابقة الطبخ",
+   "adminPin": "4821",
+   "status": "judging",
+   "accent": "#1F6F5C",
+   "logo": null,
+   "inputStyle": "slider",
+   "showBreakdown": true,
+   "showPerJudge": false,
+   "createdAt": "2026-10-29"
+  },
+  {
+   "id": "c2",
+   "clubId": "club1",
+   "title": "مسابقة الإلقاء",
+   "adminPin": "7310",
+   "status": "revealed",
+   "accent": "#8A3B2E",
+   "logo": null,
+   "inputStyle": "stepper",
+   "showBreakdown": true,
+   "showPerJudge": true,
+   "createdAt": "2026-10-15"
+  }
+ ],
+ "criteria": [
+  {
+   "id": "c1k1",
+   "competitionId": "c1",
+   "order": 1,
+   "name": "الترحيب",
+   "emoji": "💬",
+   "maxPoints": 10
+  },
+  {
+   "id": "c1k2",
+   "competitionId": "c1",
+   "order": 2,
+   "name": "الترتيب والإعداد",
+   "emoji": "🧑‍🍳",
+   "maxPoints": 15
+  },
+  {
+   "id": "c1k3",
+   "competitionId": "c1",
+   "order": 3,
+   "name": "الطعم",
+   "emoji": "😋",
+   "maxPoints": 15
+  },
+  {
+   "id": "c1k4",
+   "competitionId": "c1",
+   "order": 4,
+   "name": "طريقة التقديم",
+   "emoji": "🍹",
+   "maxPoints": 10
+  },
+  {
+   "id": "c1k5",
+   "competitionId": "c1",
+   "order": 5,
+   "name": "النظافة",
+   "emoji": "🚮",
+   "maxPoints": 10
+  },
+  {
+   "id": "c2k1",
+   "competitionId": "c2",
+   "order": 1,
+   "name": "الثقة والحضور",
+   "emoji": "🎤",
+   "maxPoints": 10
+  },
+  {
+   "id": "c2k2",
+   "competitionId": "c2",
+   "order": 2,
+   "name": "وضوح الصوت",
+   "emoji": "🔊",
+   "maxPoints": 10
+  },
+  {
+   "id": "c2k3",
+   "competitionId": "c2",
+   "order": 3,
+   "name": "المحتوى",
+   "emoji": "📝",
+   "maxPoints": 15
+  },
+  {
+   "id": "c2k4",
+   "competitionId": "c2",
+   "order": 4,
+   "name": "التأثير في الجمهور",
+   "emoji": "✨",
+   "maxPoints": 15
+  }
+ ],
+ "groups": [
+  {
+   "id": "c1g1",
+   "competitionId": "c1",
+   "name": "المشعل"
+  },
+  {
+   "id": "c1g2",
+   "competitionId": "c1",
+   "name": "الفاروق"
+  },
+  {
+   "id": "c1g3",
+   "competitionId": "c1",
+   "name": "الرواد"
+  },
+  {
+   "id": "c1g4",
+   "competitionId": "c1",
+   "name": "السنابل"
+  },
+  {
+   "id": "c1g5",
+   "competitionId": "c1",
+   "name": "النخبة"
+  },
+  {
+   "id": "c1g6",
+   "competitionId": "c1",
+   "name": "الأوائل"
+  },
+  {
+   "id": "c2g1",
+   "competitionId": "c2",
+   "name": "الفاروق"
+  },
+  {
+   "id": "c2g2",
+   "competitionId": "c2",
+   "name": "الرواد"
+  },
+  {
+   "id": "c2g3",
+   "competitionId": "c2",
+   "name": "السنابل"
+  },
+  {
+   "id": "c2g4",
+   "competitionId": "c2",
+   "name": "المشعل"
+  },
+  {
+   "id": "c2g5",
+   "competitionId": "c2",
+   "name": "النخبة"
+  }
+ ],
+ "assignments": [
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "token": "k7Qx9mP2aL",
+   "excludedGroupIds": []
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "token": "Rt4vW8zN1c",
+   "excludedGroupIds": []
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j3",
+   "token": "p2YhB6sD0e",
+   "excludedGroupIds": []
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "token": "Mz5qF3uJ9w",
+   "excludedGroupIds": [
+    "c1g1"
+   ]
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "token": "aB3dE5fG7h",
+   "excludedGroupIds": []
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "token": "Jk9Lm1Np3q",
+   "excludedGroupIds": []
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "token": "Rs5Tu7Vw9x",
+   "excludedGroupIds": []
+  }
+ ],
+ "scores": [
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g1",
+   "criterionId": "c1k1",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:09:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g1",
+   "criterionId": "c1k2",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:03:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g1",
+   "criterionId": "c1k3",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:34:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g1",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:37:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g1",
+   "criterionId": "c1k5",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:32:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g2",
+   "criterionId": "c1k1",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:05:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g2",
+   "criterionId": "c1k2",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:04:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g2",
+   "criterionId": "c1k3",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:35:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g2",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:52:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g2",
+   "criterionId": "c1k5",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:14:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g3",
+   "criterionId": "c1k1",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:37:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g3",
+   "criterionId": "c1k2",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:36:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g3",
+   "criterionId": "c1k3",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:03:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g3",
+   "criterionId": "c1k4",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:02:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g3",
+   "criterionId": "c1k5",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:08:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g4",
+   "criterionId": "c1k1",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:09:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g4",
+   "criterionId": "c1k2",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:36:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g4",
+   "criterionId": "c1k3",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:52:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g4",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:06:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g4",
+   "criterionId": "c1k5",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:40:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g5",
+   "criterionId": "c1k1",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:06:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g5",
+   "criterionId": "c1k2",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:04:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g5",
+   "criterionId": "c1k3",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:39:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g5",
+   "criterionId": "c1k4",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:43:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g5",
+   "criterionId": "c1k5",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:49:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g6",
+   "criterionId": "c1k1",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:37:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g6",
+   "criterionId": "c1k2",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:23:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g6",
+   "criterionId": "c1k3",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:50:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g6",
+   "criterionId": "c1k4",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:49:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j1",
+   "groupId": "c1g6",
+   "criterionId": "c1k5",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:36:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g1",
+   "criterionId": "c1k1",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:31:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g1",
+   "criterionId": "c1k2",
+   "value": 15,
+   "updatedAt": "2026-10-29T19:46:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g1",
+   "criterionId": "c1k3",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:38:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g1",
+   "criterionId": "c1k4",
+   "value": 10,
+   "updatedAt": "2026-10-29T19:07:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g1",
+   "criterionId": "c1k5",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:10:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g2",
+   "criterionId": "c1k1",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:09:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g2",
+   "criterionId": "c1k2",
+   "value": 14,
+   "updatedAt": "2026-10-29T19:26:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g2",
+   "criterionId": "c1k3",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:42:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g2",
+   "criterionId": "c1k4",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:35:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g2",
+   "criterionId": "c1k5",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:56:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g3",
+   "criterionId": "c1k1",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:21:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g3",
+   "criterionId": "c1k2",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:38:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g3",
+   "criterionId": "c1k3",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:51:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g3",
+   "criterionId": "c1k4",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:53:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g3",
+   "criterionId": "c1k5",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:17:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g4",
+   "criterionId": "c1k1",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:42:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g4",
+   "criterionId": "c1k2",
+   "value": 10,
+   "updatedAt": "2026-10-29T19:46:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g4",
+   "criterionId": "c1k3",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:41:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g4",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:43:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j2",
+   "groupId": "c1g4",
+   "criterionId": "c1k5",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:18:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g2",
+   "criterionId": "c1k1",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:56:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g2",
+   "criterionId": "c1k2",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:01:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g2",
+   "criterionId": "c1k3",
+   "value": 14,
+   "updatedAt": "2026-10-29T19:22:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g2",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:07:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g2",
+   "criterionId": "c1k5",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:13:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g3",
+   "criterionId": "c1k1",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:08:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g3",
+   "criterionId": "c1k2",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:25:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g3",
+   "criterionId": "c1k3",
+   "value": 11,
+   "updatedAt": "2026-10-29T19:55:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g3",
+   "criterionId": "c1k4",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:10:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g3",
+   "criterionId": "c1k5",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:35:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g4",
+   "criterionId": "c1k1",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:08:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g4",
+   "criterionId": "c1k2",
+   "value": 13,
+   "updatedAt": "2026-10-29T19:55:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g4",
+   "criterionId": "c1k3",
+   "value": 12,
+   "updatedAt": "2026-10-29T19:45:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g4",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:22:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g4",
+   "criterionId": "c1k5",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:24:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g5",
+   "criterionId": "c1k1",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:09:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g5",
+   "criterionId": "c1k2",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:09:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g5",
+   "criterionId": "c1k3",
+   "value": 10,
+   "updatedAt": "2026-10-29T19:14:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g5",
+   "criterionId": "c1k4",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:53:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g5",
+   "criterionId": "c1k5",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:16:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g6",
+   "criterionId": "c1k1",
+   "value": 6,
+   "updatedAt": "2026-10-29T19:09:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g6",
+   "criterionId": "c1k2",
+   "value": 9,
+   "updatedAt": "2026-10-29T19:23:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g6",
+   "criterionId": "c1k3",
+   "value": 10,
+   "updatedAt": "2026-10-29T19:20:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g6",
+   "criterionId": "c1k4",
+   "value": 8,
+   "updatedAt": "2026-10-29T19:44:00+03:00"
+  },
+  {
+   "competitionId": "c1",
+   "judgeId": "j4",
+   "groupId": "c1g6",
+   "criterionId": "c1k5",
+   "value": 7,
+   "updatedAt": "2026-10-29T19:39:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g1",
+   "criterionId": "c2k1",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g1",
+   "criterionId": "c2k2",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g1",
+   "criterionId": "c2k3",
+   "value": 14,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g1",
+   "criterionId": "c2k4",
+   "value": 13,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g1",
+   "criterionId": "c2k1",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g1",
+   "criterionId": "c2k2",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g1",
+   "criterionId": "c2k3",
+   "value": 13,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g1",
+   "criterionId": "c2k4",
+   "value": 14,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g1",
+   "criterionId": "c2k1",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g1",
+   "criterionId": "c2k2",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g1",
+   "criterionId": "c2k3",
+   "value": 14,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g1",
+   "criterionId": "c2k4",
+   "value": 14,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g2",
+   "criterionId": "c2k1",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g2",
+   "criterionId": "c2k2",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g2",
+   "criterionId": "c2k3",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g2",
+   "criterionId": "c2k4",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g2",
+   "criterionId": "c2k1",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g2",
+   "criterionId": "c2k2",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g2",
+   "criterionId": "c2k3",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g2",
+   "criterionId": "c2k4",
+   "value": 13,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g2",
+   "criterionId": "c2k1",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g2",
+   "criterionId": "c2k2",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g2",
+   "criterionId": "c2k3",
+   "value": 13,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g2",
+   "criterionId": "c2k4",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g3",
+   "criterionId": "c2k1",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g3",
+   "criterionId": "c2k2",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g3",
+   "criterionId": "c2k3",
+   "value": 13,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g3",
+   "criterionId": "c2k4",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g3",
+   "criterionId": "c2k1",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g3",
+   "criterionId": "c2k2",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g3",
+   "criterionId": "c2k3",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g3",
+   "criterionId": "c2k4",
+   "value": 13,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g3",
+   "criterionId": "c2k1",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g3",
+   "criterionId": "c2k2",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g3",
+   "criterionId": "c2k3",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g3",
+   "criterionId": "c2k4",
+   "value": 12,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g4",
+   "criterionId": "c2k1",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g4",
+   "criterionId": "c2k2",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g4",
+   "criterionId": "c2k3",
+   "value": 11,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g4",
+   "criterionId": "c2k4",
+   "value": 11,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g4",
+   "criterionId": "c2k1",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g4",
+   "criterionId": "c2k2",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g4",
+   "criterionId": "c2k3",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g4",
+   "criterionId": "c2k4",
+   "value": 11,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g4",
+   "criterionId": "c2k1",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g4",
+   "criterionId": "c2k2",
+   "value": 8,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g4",
+   "criterionId": "c2k3",
+   "value": 11,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g4",
+   "criterionId": "c2k4",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g5",
+   "criterionId": "c2k1",
+   "value": 6,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g5",
+   "criterionId": "c2k2",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g5",
+   "criterionId": "c2k3",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j1",
+   "groupId": "c2g5",
+   "criterionId": "c2k4",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g5",
+   "criterionId": "c2k1",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g5",
+   "criterionId": "c2k2",
+   "value": 6,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g5",
+   "criterionId": "c2k3",
+   "value": 9,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j2",
+   "groupId": "c2g5",
+   "criterionId": "c2k4",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g5",
+   "criterionId": "c2k1",
+   "value": 6,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g5",
+   "criterionId": "c2k2",
+   "value": 7,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g5",
+   "criterionId": "c2k3",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  },
+  {
+   "competitionId": "c2",
+   "judgeId": "j5",
+   "groupId": "c2g5",
+   "criterionId": "c2k4",
+   "value": 10,
+   "updatedAt": "2026-10-15T20:10:00+03:00"
+  }
+ ]
+}

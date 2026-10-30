@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="fonts/ibm-plex-sans-arabic.css" rel="stylesheet">
+<script src="lib/muqayyim.js"></script>
+<style>
+html,body{margin:0;padding:0;height:100%}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[data-mq]{--bg:#F6F5F1;--surface:#FFFFFF;--fill:#ECEAE4;--border:#E1DED6;--text:#121211;--text2:#5F5C55;--ok:#2B7A4B;--part:#A0640F;--none:#8D8981;--warn:#B23E26;--accent:#1F6F5C;--desk:#E4E1DA;--accent-ink:var(--accent);--accent-soft:color-mix(in oklch,var(--accent) 12%,transparent)}
+[data-mq="dark"]{--bg:#0E0E0D;--surface:#181817;--fill:#24231F;--border:#2E2D29;--text:#F1F0EB;--text2:#A6A298;--ok:#62BE88;--part:#E3A64B;--none:#7A766E;--warn:#EA7F66;--desk:#050505;--accent-ink:color-mix(in oklch,var(--accent) 55%,#fff);--accent-soft:color-mix(in oklch,var(--accent) 26%,transparent)}
+[data-mq] *{box-sizing:border-box}
+[data-mq] a{color:inherit}
+[data-mq] a:hover{opacity:.82}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" data-component="AdminResults" dir="rtl" lang="ar" data-mq="{{ theme }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:4px;height:56px;padding:0 8px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0">
+    <a href="{{ backHref }}" aria-label="لوحة المدير" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;border-radius:12px">→</a>
+    <span style="font-size:15px;font-weight:500;color:var(--text2)">النتائج</span>
+    <div style="flex:1"></div>
+    <span style="font-size:13px;font-weight:500;color:var(--text2);padding:4px 10px;border:1px solid var(--border);border-radius:99px;margin-left:8px">يراها المدير فقط</span>
+  </div>
+  <div style="flex:1;overflow-y:auto">
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:12px;padding:28px 24px">
+        <div style="height:40px;width:40%;border-radius:8px;background:var(--fill)"></div>
+        <div style="height:48px;width:70%;border-radius:10px;background:var(--fill)"></div>
+        <div style="height:64px;border-radius:10px;background:var(--fill);margin-top:16px"></div>
+        <div style="height:64px;border-radius:10px;background:var(--fill)"></div>
+        <div style="height:64px;border-radius:10px;background:var(--fill)"></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1120px;margin:0 auto;padding:28px 24px 48px;display:flex;flex-direction:column;gap:22px">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:15px;color:var(--text2)">{{ statusLabel }} · {{ date }} · من {{ maxTotal }}</div>
+            <h1 style="margin:0;font-size:38px;line-height:1.15;font-weight:700">{{ title }}</h1>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <a href="{{ revealHref }}" style="display:flex;align-items:center;height:48px;padding:0 18px;border-radius:12px;background:var(--accent);color:#fff;text-decoration:none;font-size:16px;font-weight:700">ابدأ الإعلان</a>
+            <button onClick="{{ publish }}" disabled="{{ cantPublish }}" title="{{ publishTitle }}" style="height:48px;padding:0 16px;border-radius:12px;font:inherit;font-size:15px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:{{ publishFg }}">{{ publishLabel }}</button>
+            <button onClick="{{ excel }}" style="height:48px;padding:0 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:15px;font-weight:500;cursor:pointer">حمّل ملف Excel</button>
+            <a href="{{ cardHref }}" style="display:flex;align-items:center;height:48px;padding:0 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);text-decoration:none;font-size:15px;font-weight:500">صورة للواتساب</a>
+          </div>
+        </div>
+        <sc-if value="{{ hasMissing }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:12px;border:1px solid var(--warn);color:var(--text);font-size:16px;line-height:1.6">
+            <sc-for list="{{ missing }}" as="m" hint-placeholder-count="2"><div><span style="color:var(--warn);font-weight:700">⚠</span> {{ m }}</div></sc-for>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:4px;border-bottom:1px solid var(--border)">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+            <a href="{{ t.href }}" style="display:flex;align-items:center;height:48px;padding:0 16px;margin-bottom:-1px;text-decoration:none;font-size:17px;border-bottom:3px solid {{ t.bd }};color:{{ t.fg }};font-weight:{{ t.fw }}">{{ t.label }}</a>
+          </sc-for>
+        </div>
+        <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:72px 0;text-align:center;display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:24px;font-weight:700">ما وصل أي تقييم بعد</div>
+            <div style="font-size:16px;color:var(--text2)">أول ما يكمل محكّم تقييم مجموعة، تطلع هنا.</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ tabRank }}" hint-placeholder-val="{{ true }}">
+          <div data-component="ResultsTable" data-variant="rank" style="display:flex;flex-direction:column">
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:4px 16px;padding:16px 0;border-bottom:1px solid var(--border)">
+                <div style="font-size:30px;font-weight:700;color:{{ r.rankColor }}">{{ r.rank }}</div>
+                <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                  <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+                    <span style="font-size:20px;font-weight:700">{{ r.name }}</span>
+                    <sc-if value="{{ r.tied }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:500;padding:2px 8px;border-radius:99px;background:var(--fill)">مركز مشترك</span></sc-if>
+                    <span style="font-size:14px;color:var(--text2)">{{ r.n }}</span>
+                  </div>
+                  <div style="height:10px;border-radius:5px;background:var(--fill);overflow:hidden"><div style="height:100%;border-radius:5px;background:var(--accent);width:{{ r.pct }}"></div></div>
+                </div>
+                <div dir="ltr" style="font-size:28px;font-weight:700;min-width:72px;text-align:left">{{ r.avg }}</div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ hasUnscored }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:14px 0;font-size:15px;color:var(--text2)">لم تُقيَّم بعد: {{ unscored }}</div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ tabCriteria }}" hint-placeholder-val="{{ false }}">
+          <div style="overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface)">
+            <table data-component="ResultsTable" data-variant="criteria" style="width:100%;border-collapse:collapse;font-size:16px;min-width:640px">
+              <thead><tr>
+                <th style="text-align:right;padding:14px 16px;font-size:14px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)">المجموعة</th>
+                <sc-for list="{{ critHead }}" as="h" hint-placeholder-count="5"><th style="text-align:center;padding:14px 10px;font-size:14px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)">{{ h.emoji }} {{ h.name }}<div style="font-size:12px;font-weight:400">من {{ h.max }}</div></th></sc-for>
+                <th style="text-align:center;padding:14px 16px;font-size:14px;font-weight:700;border-bottom:1px solid var(--border)">المتوسط</th>
+              </tr></thead>
+              <tbody>
+                <sc-for list="{{ critRows }}" as="r" hint-placeholder-count="6">
+                  <tr>
+                    <td style="padding:12px 16px;font-weight:500;border-bottom:1px solid var(--border)">{{ r.name }}</td>
+                    <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><td dir="ltr" style="text-align:center;padding:12px 10px;border-bottom:1px solid var(--border);background:{{ c.bg }};color:{{ c.fg }};font-weight:{{ c.fw }}">{{ c.v }}</td></sc-for>
+                    <td dir="ltr" style="text-align:center;padding:12px 16px;font-weight:700;border-bottom:1px solid var(--border)">{{ r.avg }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:14px;color:var(--text2)">المظلّل = الأعلى في البند.</div>
+        </sc-if>
+        <sc-if value="{{ tabJudges }}" hint-placeholder-val="{{ false }}">
+          <div style="overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface)">
+            <table data-component="ResultsTable" data-variant="judges" style="width:100%;border-collapse:collapse;font-size:16px;min-width:560px">
+              <thead><tr>
+                <th style="text-align:right;padding:14px 16px;font-size:14px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)">المجموعة</th>
+                <sc-for list="{{ judgeHead }}" as="h" hint-placeholder-count="4"><th style="text-align:center;padding:14px 10px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border)">{{ h }}</th></sc-for>
+                <th style="text-align:center;padding:14px 16px;font-size:14px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)">المتوسط</th>
+              </tr></thead>
+              <tbody>
+                <sc-for list="{{ judgeRows }}" as="r" hint-placeholder-count="6">
+                  <tr>
+                    <td style="padding:12px 16px;font-weight:500;border-bottom:1px solid var(--border)">{{ r.name }}</td>
+                    <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4"><td style="text-align:center;padding:12px 10px;border-bottom:1px solid var(--border);color:{{ c.fg }};font-size:{{ c.fs }}">{{ c.v }}</td></sc-for>
+                    <td dir="ltr" style="text-align:center;padding:12px 16px;font-weight:700;border-bottom:1px solid var(--border)">{{ r.avg }}</td>
+                  </tr>
+                </sc-for>
+                <tr style="background:var(--fill)">
+                  <td style="padding:14px 16px;font-size:14px;font-weight:700">متوسط عطاء هذا المحكّم</td>
+                  <sc-for list="{{ judgeAvg }}" as="c" hint-placeholder-count="4"><td dir="ltr" style="text-align:center;padding:14px 10px;font-weight:700;color:{{ c.fg }}">{{ c.v }}</td></sc-for>
+                  <td dir="ltr" style="text-align:center;padding:14px 16px;font-weight:700">{{ overallAvg }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:14px;color:var(--text2)">«—» لم يكمل التقييم · «مستثنى» لا يُحسب عليه. فرق كبير في سطر العطاء يعني محكّم قاسٍ أو سخي.</div>
+        </sc-if>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false, copied: false };
+  componentDidMount() { const w = () => window.Muq ? (this.detach = Muq.attach(this)) : setTimeout(w, 30); w(); }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() { this.detach && this.detach(); }
+  applyAccent() { if (this.root && this.accent) this.root.style.setProperty('--accent', this.accent); }
+  P() { return this.props.params || (window.Muq ? Muq.params() : {}); }
+  renderVals() {
+    const p = this.P();
+    const theme = this.props.theme || (p.theme === 'dark' ? 'dark' : 'light');
+    const base = { theme, rootRef: el => { this.root = el; this.applyAccent(); }, loading: true, ready: false, tabs: [], rows: [], missing: [], backHref: '#' };
+    if (!this.state.ready || p.state === 'loading') return base;
+    const cid = p.comp || 'c1', comp = Muq.comp(cid) || Muq.db.competitions[0];
+    this.accent = comp.accent;
+    const status = Muq.status(comp, p);
+    const R = Muq.results(cid);
+    const forceEmpty = p.state === 'empty';
+    const rows = forceEmpty ? [] : R.rows;
+    const fmt = Muq.fmt;
+    const tab = ['criteria', 'judges'].includes(p.tab) ? p.tab : 'rank';
+    const tabs = [['rank', 'الترتيب'], ['criteria', 'البنود'], ['judges', 'المحكّمون']].map(([v, label]) => ({
+      label, href: Muq.href('results', { ...p, tab: v === 'rank' ? '' : v }),
+      bd: tab === v ? 'var(--text)' : 'transparent', fg: tab === v ? 'var(--text)' : 'var(--text2)', fw: tab === v ? 700 : 500 }));
+    const missing = forceEmpty ? [] : R.missing.map(m => m.judge.name + ' لم يقيّم ' + (m.all ? 'أي مجموعة' : Muq.joinAr(m.groups.map(g => g.name))) + '، والمتوسط محسوب بدونه.');
+    const ks = R.criteria, as = R.assignments;
+    const best = {};
+    ks.forEach(k => { best[k.id] = Math.max(...rows.map(r => r.crit[k.id] ?? -1)); });
+    const judgeAvg = as.map(a => {
+      const vals = rows.map(r => r.per[a.judgeId]).filter(v => v != null);
+      return vals.length ? vals.reduce((x, y) => x + y, 0) / vals.length : null;
+    });
+    const valid = judgeAvg.filter(v => v != null);
+    const overall = valid.length ? valid.reduce((x, y) => x + y, 0) / valid.length : null;
+    const revealed = status === 'revealed';
+    const pl = (n, few, many) => n + ' ' + (n >= 3 && n <= 10 ? few : many);
+    return {
+      ...base, loading: false, ready: true,
+      backHref: Muq.href('admin', { comp: cid }), title: comp.title, statusLabel: Muq.STATUS[status], date: Muq.date(comp.createdAt), maxTotal: R.max,
+      revealHref: Muq.href('reveal', { comp: cid, step: '0', theme: '', device: '' }),
+      cardHref: Muq.href('share-card', { comp: cid, device: '' }),
+      cantPublish: !revealed, publishFg: revealed ? 'var(--text)' : 'var(--none)',
+      publishTitle: revealed ? '' : 'يتفعّل بعد الإعلان',
+      publishLabel: this.state.copied ? '✓ نُسخ رابط النتائج' : revealed ? 'انشر رابط النتائج' : 'انشر رابط النتائج (بعد الإعلان)',
+      publish: () => { try { navigator.clipboard.writeText(location.href.split('#')[0] + '#screen=public&comp=' + cid); } catch (e) {} this.setState({ copied: true }); },
+      excel: () => Muq.downloadCSV(cid),
+      hasMissing: missing.length > 0 && status !== 'draft', missing, tabs,
+      empty: rows.length === 0, tabRank: tab === 'rank' && rows.length > 0, tabCriteria: tab === 'criteria' && rows.length > 0, tabJudges: tab === 'judges' && rows.length > 0,
+      rows: rows.map(r => ({ rank: r.rank, name: r.group.name, avg: fmt(r.avg), tied: r.tied, pct: (r.avg / R.max * 100) + '%',
+        n: pl(r.n, 'محكّمين', 'محكّم'), rankColor: r.rank === 1 ? 'var(--accent-ink)' : 'var(--text2)' })),
+      hasUnscored: !forceEmpty && R.unscored.length > 0, unscored: Muq.joinAr(R.unscored.map(r => r.group.name)),
+      critHead: ks.map(k => ({ name: k.name, emoji: k.emoji || '', max: k.maxPoints })),
+      critRows: rows.map(r => ({ name: r.group.name, avg: fmt(r.avg), cells: ks.map(k => {
+        const top = r.crit[k.id] != null && Math.abs(r.crit[k.id] - best[k.id]) < 1e-9;
+        return { v: fmt(r.crit[k.id]), bg: top ? 'var(--accent-soft)' : 'transparent', fg: top ? 'var(--accent-ink)' : 'var(--text)', fw: top ? 700 : 400 };
+      }) })),
+      judgeHead: as.map(a => Muq.judge(a.judgeId).name),
+      judgeRows: rows.map(r => ({ name: r.group.name, avg: fmt(r.avg), cells: as.map(a => {
+        const ex = (a.excludedGroupIds || []).includes(r.group.id), v = r.per[a.judgeId];
+        return { v: ex ? 'مستثنى' : v != null ? String(v) : '—', fg: v != null ? 'var(--text)' : 'var(--none)', fs: ex ? '13px' : '16px' };
+      }) })),
+      judgeAvg: judgeAvg.map(v => ({ v: fmt(v), fg: v == null ? 'var(--none)' : overall != null && Math.abs(v - overall) > 3 ? 'var(--warn)' : 'var(--text)' })),
+      overallAvg: fmt(overall)
+    };
+  }
+}
+</script>
+</body>
+</html>
